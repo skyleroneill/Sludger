@@ -1,0 +1,197 @@
+HOW TO USE BEHAVIOR SCRIPTS
+Last updated: 06/26/2019
+
+Behavior scripts allow for modular enemy behavior patterns. Each behavior scripts
+is comprised of lines of behaviors called actions. Actions fall into one of seven 
+categories: aim, move, shoot, target, behavior, if, wait. Below are decriptions of 
+each category and their associated actions, and how to use each action. Actions 
+are not case sensitive.
+
+---------------------------------------------------------------------------------
+AIM:
+The aim category contains actions involving the aiming of the NPC.
+
+AIM ACTIONS:
+
+aim track <bool>
+Sets whether or not the NPC will face its current target or perform its idle aiming. 
+True results in it facing the target, while false results in it aiming based on its
+idle aim type. This action also ends any overridden aiming that may have been set by
+the "aim direction" action.
+
+-----
+
+aim direction <float (x)> <float (y)> <float (z)>
+Causes the NPC to aim in the direction of the given Vector3. This overrides any idle
+aiming or tracking aiming. To stop aiming in the direction, simply use the "aim track"
+action.
+
+-----
+
+aim idleType <IdleType>
+Set the idle aiming behavior of the NPC. Does not cause the NPC to begin performing its
+idle aiming. Idle aiming is performed when the NPC is not tracking its target and is
+not aiming in an override direction.
+Valid idle types are: 
+    movementDirection/moveDir   - Face the direction of movement.
+    randomDirection/randDir     - Face a random direction.
+    clockwise/clock             - Rotate clockwise.
+    counterClockwise/cntrClock  - Rotate counter clockwise.
+
+---------------------------------------------------------------------------------
+MOVE:
+The move category contains actions involving the movement and pathing of the NPC.
+
+MOVE ACTIONS:
+
+move path <bool>
+Sets whether the NPC will path to its current target or move in its override
+direction. True and 1 set the NPC to path, while false and 0 set the NPC to
+move in the direction set by the "move direction" action.
+
+-----
+
+move pathingSpeed/pathSpeed <float>
+Sets the NPC's pathing movement speed.
+
+-----
+
+move directionSpeed/dirSpeed <float>
+Set the NPC's direction move speed. This is the speed used when moving in an
+override direction.
+
+-----
+
+move stop <bool>
+Set whether the NPC can move or not. True stops movement, false allows movement.
+
+-----
+
+move direction <Direction>
+Set the NPC's override movement direction. This action does not begin moving the
+NPC in that direction. The NPC will move in the specified direction when not 
+pathing and not stopped.
+Valid directions are:
+    forward, backward, left, right, forwardLeft, forwardRight, backwardleft, backwardright
+
+-----
+
+move destination/dest target
+Change the NPC's pathing destination to its current target.
+
+-----
+
+move destination/dest <int>
+Change the NPC's pathing destination to a target specified by a given index.
+
+---------------------------------------------------------------------------------
+SHOOT:
+The shoot category contains actions involving shooting.
+
+shoot <int>
+shoot <int> <int>
+shoot <int> <int> <int>
+Fire a burst of bullets. First int specifies the number of bullets in the burst.
+The second int specifies a bullet by its index. The third int specifies a Fire
+point by its index.
+
+-----
+
+shoot stop
+The NPC will stop firing, even if in the middle of a burst.
+
+-----
+
+shoot reset
+Resets the cooldowns for firing, allowing the the NPC to fire another shot
+immediately.
+
+-----
+
+shoot cooldown <float>
+Specifies the time, in seconds, between each shot being fired.
+
+-----
+shoot burstCooldown <float>
+Specifies the time, in seconds, between each burst being fired.
+
+---------------------------------------------------------------------------------
+TARGET:
+The target category contains actions invloving changing and adding possible
+targets. Targets can be used by aim and move actions.
+
+target first
+Change the current target to the first in the list of targets.
+
+-----
+
+target last
+Change the current target to the last in the list of targets.
+
+-----
+
+target addname <string>
+Add a new target to the list of targets. Targets is added by its name in the scene.
+
+---------------------------------------------------------------------------------
+Behavior:
+The target category contains actions involving modifying the behaviors of the NPC.
+
+behavior change <int>
+Change the current behavior script that the NPC is executing. Can be used to
+ensure that certain behavior is always performed after another, or when another
+event has occurred. The int specifies the index of the behavior being changed to.
+
+-----
+
+behavior change random/rand
+changes the current behavior to a random behavior. This is done whether the NPC
+is set to select its next behavior randomly or not. Useful for exiting a behavior
+early.
+
+---------------------------------------------------------------------------------
+IF:
+The if category allows for several lines of actions to be skipped based upon
+the result of a comparison.
+
+if <leftValue> <comparisonOperator> <float/int>
+Performs the comparison. If the result is true, then continue performing each action
+as normal. If the result is false, then skip all actions until an "endif" action is
+found.
+Valid left values are:
+    targetHP                                  - The current health of the current target. Uses an int.
+    npcHP                                     - The current health of this NPC. Uses an int.
+    distanceToTarget/distToTarget             - The distance to the current target. Uses a float.
+    pathDistance/pathDist                     - The distance to the current destination along the path.
+    distanceToFirePoint/distToFirePoint <int> - The distance from a specified fire point to the target
+    shots                                     - The number of shots this NPC has loaded
+Valid camparison operators are:
+    <, >, =, ==, <=, >=, !=
+
+endif
+Ends the section of actions that are skipped by a false if.
+
+---------------------------------------------------------------------------------
+WAIT:
+The wait category allows for the executions of more actions to stall until a
+condition is met.
+
+wait <float>
+Remain on this action until the given number of seconds have passed.
+
+-----
+
+wait <leftValue> <comparisonOperator> <float/int>
+Performs the comparison. If the result is true, then continue performing each action
+as normal. If the result is false, then remain on this action until it is true.
+Valid left values are:
+    targetHP                                  - The current health of the current target. Uses an int.
+    npcHP                                     - The current health of this NPC. Uses an int.
+    distanceToTarget/distToTarget             - The distance to the current target. Uses a float.
+    pathDistance/pathDist                     - The distance to the current destination along the path.
+    distanceToFirePoint/distToFirePoint <int> - The distance from a specified fire point to the target
+    shots                                     - The number of shots this NPC has loaded
+Valid camparison operators are:
+    <, >, =, ==, <=, >=, !=
+
+---------------------------------------------------------------------------------

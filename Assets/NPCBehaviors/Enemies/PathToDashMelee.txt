@@ -1,0 +1,28 @@
+move pathSpeed 3
+move dirSpeed 10
+// Idle if out of range
+IF pathDist >= 10
+   move stop true
+   aim idleType randDir
+   aim track false
+ENDIF
+// Path to the player if in range
+IF pathDist < 10
+    move stop false
+    move path true
+    aim idleType moveDir
+    aim track false
+    // Dash towards the player if in range
+    IF distToTarget < 3
+        move path false
+        aim track true
+        aim idleType lastDir
+        wait 0.01
+        aim track false
+        move direction forward
+        wait 0.18
+        shoot 1
+        move stop true
+        move path true
+        wait 1
+ENDIF

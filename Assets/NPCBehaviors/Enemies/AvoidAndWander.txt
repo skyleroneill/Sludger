@@ -1,0 +1,18 @@
+move path false
+aim idletype randDir
+// Wander randomly while player is far away
+IF pathDist > 6
+    move dirspeed 1.5
+    shoot stop
+    aim track false
+    aim idletype randDir
+    move stop false
+    move direction forward
+ENDIF
+// If the player is too close then move away
+IF pathDist <= 6
+    move dirspeed 2
+    shoot 1
+    move direction forward
+    // aim track true
+ENDIF

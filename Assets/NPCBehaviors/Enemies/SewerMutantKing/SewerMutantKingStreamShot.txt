@@ -1,0 +1,19 @@
+// Fire ten single shots from mouth
+shoot 10 1 0
+// Swap to melee script if player is close to mouth
+IF distToFirePoint 0 <= 1.1
+    shoot stop
+    shoot reset
+    behavior change 2
+ENDIF
+IF distToFirePoint 1 <= 1.1
+    shoot stop
+    shoot reset
+    behavior change 2
+ENDIF
+IF distToFirePoint 2 <= 1.1
+    shoot stop
+    shoot reset
+    behavior change 2
+ENDIF
+wait shots <= 0

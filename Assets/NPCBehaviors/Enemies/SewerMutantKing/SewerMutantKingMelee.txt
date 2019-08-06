@@ -1,0 +1,16 @@
+// Perform melee if player is close
+IF distToFirePoint 0 <= 1.1
+    shoot 1 2 0
+    wait shots <= 0
+    behavior change rand
+ENDIF
+IF distToFirePoint 1 <= 1.1
+    shoot 1 2 0
+    wait shots <= 0
+    behavior change rand
+ENDIF
+IF distToFirePoint 2 <= 1.1
+    shoot 1 2 0
+    wait shots <= 0
+    behavior change rand
+ENDIF

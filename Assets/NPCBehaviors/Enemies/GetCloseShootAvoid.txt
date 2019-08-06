@@ -1,0 +1,34 @@
+move pathSpeed 2
+move dirspeed 1.5
+// Ignore the player if they are very distant
+IF pathDist > 7
+    shoot stop
+    aim track false
+    aim idletype randdir
+    move direction forward
+    move path false
+    move stop false
+ENDIF
+// Move toward the player if they are too far
+IF pathDist > 5
+    IF pathDist <= 7
+        shoot stop
+        aim track false
+        aim idletype movedir
+        move path true
+        move stop false
+ENDIF
+// Stop, aim and shoot if close to player
+IF pathDist <= 5
+    IF distToTarget > 2
+        aim track true
+        move stop true
+        shoot 5
+ENDIF
+// If the player is too close then move away
+IF distToTarget <= 2
+    move stop false
+    move path false
+    move direction backward
+    aim track true
+ENDIF
