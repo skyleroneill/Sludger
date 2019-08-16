@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1032678797}
   - component: {fileID: 1032678798}
+  - component: {fileID: 416659880}
   m_Layer: 8
   m_Name: AimingDirection
   m_TagString: Untagged
@@ -44,6 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4206d1e71f55e0f469fe70439b1ed76f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &416659880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032678796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a57520d1a54904a814ff403c89d684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetScale: {x: 1, y: 1, z: 1}
 --- !u!1 &1766817960
 GameObject:
   m_ObjectHideFlags: 0
@@ -2068,7 +2082,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ded5128ba151494cb3811bb2963fb89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interpolant: 0.1
+  interpolant: 0.05
+  snapThreshold: 0.05
 --- !u!114 &1465046544995410628
 MonoBehaviour:
   m_ObjectHideFlags: 0

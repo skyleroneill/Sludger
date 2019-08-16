@@ -23,10 +23,14 @@ public class RollAbility : PlayerAbility
     }
 
     public override void ActivateAbility(){
-        pm.ApplyBurstForce(rollForce, rollAcceleration, rollDuration, true);
+        // Apply roll force only if the player is already moving
+        if(pm.IsMoving()){
+            pm.ApplyBurstForce(rollForce, rollAcceleration, rollDuration, true);
 
-        if(pac)
-            pac.SetBoolEnabledForTime(animationParameter, rollDuration);
+            // Set the animation to play if the player has an animation controller script
+            if(pac)
+                pac.SetBoolEnabledForTime(animationParameter, rollDuration);
+        }
     }
 
     public override void StartAnimationEvent(){

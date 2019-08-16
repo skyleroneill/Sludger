@@ -35,6 +35,15 @@ public class MeleeAbility : PlayerAbility
         // Perform the check of the given collider type
         if(hitBox.GetType() == typeof(SphereCollider)){
             hits = Physics.OverlapSphere(attackOrigin, ((SphereCollider)hitBox).radius);
+            
+            // Create a sphere to visualize the attack size
+            if(debug){
+                GameObject debugSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                debugSphere.GetComponent<Collider>().enabled = false;
+                debugSphere.transform.position = attackOrigin;
+                debugSphere.transform.localScale = new Vector3(((SphereCollider)hitBox).radius * 2, ((SphereCollider)hitBox).radius * 2, ((SphereCollider)hitBox).radius * 2);
+                Destroy(debugSphere, 0.05f);
+            }
         }else if(hitBox.GetType() == typeof(BoxCollider)){
             // TODO :: hits = Physics.OverlapBox();
         }else if(hitBox.GetType() == typeof(CapsuleCollider)){

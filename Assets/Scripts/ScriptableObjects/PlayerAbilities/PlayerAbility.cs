@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class PlayerAbility : ScriptableObject
 {
+    public bool debug = false;
     [Tooltip("How much of a resource, such as health, is expended by using this ability.")]
     [SerializeField]
     protected int cost;

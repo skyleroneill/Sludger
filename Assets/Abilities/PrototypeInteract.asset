@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fead5434a0cde8f4098cca5b1ff6024a, type: 3}
-  m_Name: PrototypeMelee
+  m_Script: {fileID: 11500000, guid: 372afbbfbf1be8f41a2998d7a92010ea, type: 3}
+  m_Name: PrototypeInteract
   m_EditorClassIdentifier: 
-  debug: 1
+  debug: 0
   cost: 0
-  cooldown: 0.2
+  cooldown: 0
   animationParameter: 
-  range: 0.75
-  hitBox: {fileID: 725101442114984911, guid: 4dca46aa155ab2942adae571e0e8cd1e, type: 3}
-  power: 1

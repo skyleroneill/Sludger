@@ -9,10 +9,10 @@ public class ObjectTargeting : MonoBehaviour
     [Tooltip("The objects that this object can target.")]
     [SerializeField]
     private List<GameObject> targets;
-    [Tooltip("The index of the current target. Index 0 is the primary target.")]
+    [Tooltip("The index of the current target. Index 0 is the default target.\nLeave the 0 index empty to set it at runtime to the default target specified by the default target tag.")]
     [SerializeField]
     private int currentTarget = 0;
-    [Tooltip("The tag of the default ")]
+    [Tooltip("The tag of the default target.")]
     [SerializeField]
     private string defaultTargetTag = "Player";
 
@@ -20,10 +20,10 @@ public class ObjectTargeting : MonoBehaviour
         // Ensure that there is always atleast one target.
         // Set target based upon a given tag.
         if(targets.Count == 0 || !targets[0]){
-            targets.Add(GameObject.FindWithTag(defaultTargetTag));
+            targets.Insert(0, GameObject.FindWithTag(defaultTargetTag));
         }
 
-        // If the given tag is not on any object, then target self.
+        // If the given default tag is not on any object, then target self.
         // This is a measure to prevent errors.
         if(!targets[0]){
             targets[0] = gameObject;

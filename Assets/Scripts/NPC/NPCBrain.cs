@@ -28,13 +28,15 @@ public class NPCBrain : MonoBehaviour
     private NPCShoot shoot;
     private NPCMove move;
     private Health hp;
+    private NPCTalk talk;
 
     private void Start(){
         targeting = GetComponent<ObjectTargeting>();
         aim = GetComponent<NPCAim>();
         shoot = GetComponent<NPCShoot>();
         move = GetComponent<NPCMove>();
-        hp = GetComponent<Health>();        
+        hp = GetComponent<Health>();
+        talk = GetComponent<NPCTalk>();  
 
         hp.SetHealth(hp.GetMaxHealth());
         StartAI();
@@ -200,6 +202,12 @@ public class NPCBrain : MonoBehaviour
                 return shots == compVal;
             }
         }
+        // Is the NPC in a conversation
+        else if(boolean[0].Contains("inconversation"))
+            return talk.isInConversation();
+        // Is the NPC not in a conversation
+        else if(boolean[0].Contains("notinconversation"))
+            return !talk.isInConversation();
 
         // Given boolean statement not supported
         // Skip to the endif
@@ -437,8 +445,52 @@ public class NPCBrain : MonoBehaviour
                         ChangeBehaviorScript(bIndex);
                     }
                 }
-            }else if(act[0].Contains("say")){ // ** Speech actions **
-                // TODO :: Add speech actions
+            }else if(act[0].Contains("talk")){ // ** Speech actions **
+                // Say the given text
+                if(act[1].Contains("say")){
+                    string[] line = actions[currentAction].Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                    string speech = "";
+                    for(int i = 2; i < line.Length; i++){
+                        // Add each word to the speech
+                        speech += line[i];
+                        // Add spaces between all but the last word
+                        if(i < line.Length - 1)
+                            speech += " ";
+                    
+                        talk.Say(speech);
+                    }
+                }
+                // Ensure proper length
+                else if(act.Length == 3){
+                    // Set whether or not this NPC can talk
+                    if(act[1].Contains("cantalk"))
+                    {
+                        if(act[2].Contains("true") || act[2].Contains("1"))
+                            talk.canTalk = true;
+                        else if(act[2].Contains("false") || act[2].Contains("0"))
+                            talk.canTalk = false;
+                    }
+                    // Set whether or not this NPC can converse
+                    else if(act[1].Contains("canconverse")){
+                        if(act[2].Contains("true") || act[2].Contains("1"))
+                            talk.canConverse = true;
+                        else if(act[2].Contains("false") || act[2].Contains("0"))
+                            talk.canConverse = false;
+                    }
+                    // Set the max distance for conversations
+                    else if(act[1].Contains("distance") || act[1].Contains("dist")){
+                        int talkDist = 0;
+                        int.TryParse(act[2], out talkDist);
+                        talk.maxConversationDistance = talkDist;
+                    }
+                }
+                // Ensure proper length
+                else if(act.Length == 2){
+                    // Silence the NPC
+                    if(act[1].Contains("silence")){
+                        talk.Say("");
+                    }
+                }
             }else if(act[0].Contains("endif")){ // ** EndIF action **
                 skipToEndIf = false;
             }else if(act[0].Contains("if")){ // ** If action ** 
@@ -476,7 +528,7 @@ public class NPCBrain : MonoBehaviour
 
     IEnumerator Wait(float time){
 		yield return new WaitForSeconds (time);
-	 }
+	}
 
      public void ChangeBehaviorScript(int i){
          // Ensure given index is within bounds
