@@ -1936,6 +1936,8 @@ GameObject:
   - component: {fileID: 1588813486530049015}
   - component: {fileID: 1465046544995410628}
   - component: {fileID: 263649693}
+  - component: {fileID: 5913636775035247382}
+  - component: {fileID: 1537357091}
   m_Layer: 8
   m_Name: PF_protoplayer
   m_TagString: Player
@@ -2021,7 +2023,7 @@ MonoBehaviour:
     exclusiveUse: 0
     onCooldown: 0
     cooldownTime: 0
-  - abil: {fileID: 0}
+  - abil: {fileID: 11400000, guid: c1cadcf7a57256b409db01241c6a0705, type: 2}
     exclusiveUse: 0
     onCooldown: 0
     cooldownTime: 0
@@ -2083,7 +2085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interpolant: 0.05
-  snapThreshold: 0.05
+  snapThreshold: 0.01
 --- !u!114 &1465046544995410628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2113,6 +2115,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 1
+--- !u!114 &5913636775035247382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588813486530049008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33677d415361ea74bacc31fdb5965a95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1537357091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588813486530049008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a95641c31856047895d67e3130c177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &892856690
 MonoBehaviour:
   m_ObjectHideFlags: 0

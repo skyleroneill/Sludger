@@ -37,9 +37,9 @@ public class NPCMove : MonoBehaviour
         nma.updateRotation = false;
         nma.updatePosition = false;
 
-        // If destination isn't preset, then use current target
+        // If destination isn't preset, then use default target
         if(!destination)
-            destination = ot.GetCurrentTarget().transform;
+            destination = ot.GetTarget(0).transform;
         
         SetDestination();
     }

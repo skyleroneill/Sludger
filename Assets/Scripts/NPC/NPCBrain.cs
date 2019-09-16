@@ -456,9 +456,8 @@ public class NPCBrain : MonoBehaviour
                         // Add spaces between all but the last word
                         if(i < line.Length - 1)
                             speech += " ";
-                    
-                        talk.Say(speech);
                     }
+                    talk.Say(speech);
                 }
                 // Ensure proper length
                 else if(act.Length == 3){

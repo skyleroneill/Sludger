@@ -12,6 +12,8 @@ public class NPCTalk : MonoBehaviour
     public bool canConverse = true;
     [Tooltip("The max distance to their conversation target that this NPC must be to begin greeting/conversing.")]
     public float maxConversationDistance = 2f;
+    [Tooltip("The speed at which characters will appear when the NPC speaks. Measures time in seconds between each letter. Smaller values mean faster text speeds. Zero or less specifies text appearing instantly.")]
+    public float textSpeed = 0.025f;
     
     [Tooltip("The tag of the game object this NPC will converse with. Sets the conversation target if not target is specified.")]
     [SerializeField]
@@ -30,6 +32,8 @@ public class NPCTalk : MonoBehaviour
 
     private bool inConversation = false;
     private bool isListener = false;
+    private bool isPrinting = false;
+    private string currSpeech = ""; // What the NPC is currently saying
 
     private string[][] conversationLines;
     private int currConvLine = 0;
@@ -70,7 +74,7 @@ public class NPCTalk : MonoBehaviour
         // Player's interact ability won't be instantly available
         // Check each frame until it is
         // Then set up a listener method for starting a conversation
-        if(canConverse && InteractAbility.interact && !isListener){
+        if(canConverse && InteractAbility.interact && !isListener && !isPrinting){
             isListener = true;        
             InteractAbility.interact.onInteractPressed += Converse;
         }
@@ -101,20 +105,26 @@ public class NPCTalk : MonoBehaviour
     }
 
     public void Converse(){
+        // Remove this method as a listener
+        if(this == null){
+            InteractAbility.interact.onInteractPressed -= Converse;
+            return;
+        }
         // If the NPC can't talk or conversation target is too far, then don't start conversation
         if(!canConverse || Vector3.Distance(transform.position, conversationTarget.position) > maxConversationDistance){
             return;
         }
 
         // Cycle conversation lines
-        if(currConvLine < conversationLines[currentConversation].Length){
+        if(currConvLine < conversationLines[currentConversation].Length && !isPrinting){
             if(debug) Debug.Log(gameObject.name + " Converses: " + conversationLines[currentConversation][currConvLine]);
             inConversation = true;
-            speechText.text = conversationLines[currentConversation][currConvLine];
+            //speechText.text = conversationLines[currentConversation][currConvLine];
+            StartCoroutine(PrintSpeech(conversationLines[currentConversation][currConvLine]));
             currConvLine++;
         }
         // End conversation
-        else if(currConvLine >= conversationLines[currentConversation].Length){
+        else if(currConvLine >= conversationLines[currentConversation].Length && !isPrinting){
             if(debug) Debug.Log("Ending Conversation");
             inConversation = false;
             currConvLine = 0;
@@ -138,7 +148,7 @@ public class NPCTalk : MonoBehaviour
         }
 
         // Don't say the same thing twice
-        if(speech == speechText.text){
+        if(speech == currSpeech){
             if(debug) Debug.Log(gameObject.name + " won't say the same thing twice.");
             return;
         }
@@ -149,12 +159,60 @@ public class NPCTalk : MonoBehaviour
             return;
         }
 
-        if(debug) Debug.Log(gameObject.name + " says: " + speech);
-
-        speechText.text = speech;
+        
+        //speechText.text = speech;
+        if(isPrinting) return;
+        StartCoroutine(PrintSpeech(speech));
     }
 
     public bool isInConversation(){
         return inConversation;
+    }
+
+    IEnumerator PrintSpeech(string speech){
+        isPrinting = true;
+        // Set what the NPC is currently trying to say
+        currSpeech = speech;
+        // Don't bother saying empty strings or strings of all spaces
+        if(string.IsNullOrWhiteSpace(speech)){
+            if(debug) Debug.Log(gameObject.name + " is trying to say an empty string.");
+            speechText.text = "";
+            isPrinting = false;
+            yield break;
+        }
+
+        if(debug) Debug.Log(gameObject.name + " says: " + speech);
+
+        // Instantly say text if text speed is 0 or less
+        if(textSpeed <= 0f){
+            speechText.text = speech;
+            isPrinting = false;
+            yield break;
+        }
+        // Say the first character
+        speechText.text = "" + speech[0];
+
+        // Next character that will appear
+        int currChar = 1;
+
+        // Until all characters are printed
+        while(currChar < speech.Length){
+            // Wait before printing the next character
+            yield return new WaitForSeconds(textSpeed);
+
+            // If text suddenly clears then this npc is being silenced
+            // So stop printing text and exit
+            if(speechText.text == ""){
+                isPrinting = false;
+                yield break;
+            }
+
+            // Add the new character to speechText and increment to next character
+            speechText.text += speech[currChar];
+            currChar++;
+        }
+
+        isPrinting = false;
+        yield return null;
     }
 }

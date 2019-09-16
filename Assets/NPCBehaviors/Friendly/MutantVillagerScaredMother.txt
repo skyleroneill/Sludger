@@ -1,0 +1,9 @@
+talk canConverse 0
+aim track 1
+move direction backward
+IF distToTarget <= 2
+    talk say Don't talk to me or my son again!
+ENDIF
+IF distToTarget > 2
+    talk silence
+ENDIF

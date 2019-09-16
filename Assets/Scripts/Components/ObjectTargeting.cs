@@ -19,8 +19,10 @@ public class ObjectTargeting : MonoBehaviour
     private void Awake(){
         // Ensure that there is always atleast one target.
         // Set target based upon a given tag.
-        if(targets.Count == 0 || !targets[0]){
+        if(targets.Count == 0){ // Targets list is empty
             targets.Insert(0, GameObject.FindWithTag(defaultTargetTag));
+        }else if(targets[0] == null){ //  No default target given
+            targets[0] = GameObject.FindWithTag(defaultTargetTag);
         }
 
         // If the given default tag is not on any object, then target self.
@@ -28,6 +30,12 @@ public class ObjectTargeting : MonoBehaviour
         if(!targets[0]){
             targets[0] = gameObject;
             if(debug) Debug.Log(gameObject.name + ": Given default target tag could not be found.");
+        }
+
+        // The current target is invalid
+        // Default to 0
+        if(currentTarget < 0 || currentTarget > targets.Count || targets[currentTarget] == null){
+            currentTarget = 0;
         }
     }
 

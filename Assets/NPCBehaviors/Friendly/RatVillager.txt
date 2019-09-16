@@ -1,0 +1,12 @@
+move path false
+IF targetHp < 3
+    target first
+    talk canConverse 0
+    behavior change 1
+ENDIF
+IF distToTarget <= 2
+    aim idletype randDir
+ENDIF
+IF distToTarget > 2
+    aim idletype randDir
+ENDIF

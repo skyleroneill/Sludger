@@ -1,0 +1,10 @@
+move path false
+IF npcHP < 6
+    behavior change 1
+ENDIF
+IF distToTarget <= 2
+    aim idletype randDir
+ENDIF
+IF distToTarget > 2
+    aim idletype randDir
+ENDIF
