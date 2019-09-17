@@ -1,0 +1,10 @@
+The next step on your journey through this prototype will be in this tunnel.
+There won't be any of us talking signs for a little bit, but don't be scared!
+We'll be back soon enough.
+But first you'll get to meet some non-sign NPCs.
+Sludger has a robust and modular NPC system.
+This means that NPCs can do a lot without having to have fresh code for everything.
+Through this tunnel you'll get to see some basic examples of what NPCs can do.
+But they are capable of more complex behaviors too.
+Or so the guy who made this claims, so I don't know man.
+Now go on and meet some mutants in this sewer.

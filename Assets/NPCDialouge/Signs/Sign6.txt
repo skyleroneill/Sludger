@@ -1,0 +1,6 @@
+Do you like rats?
+I sure hope so because that's what you'll find in here.
+Rats are meant to be weak swarm enemies.
+They'll path to you if you get close.
+Then once within range they'll charge you down and try to bite you.
+Or rather bump into you for now. But someday they'll bite!

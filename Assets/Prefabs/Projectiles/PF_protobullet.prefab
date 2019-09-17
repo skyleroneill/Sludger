@@ -110,6 +110,7 @@ MonoBehaviour:
   ignoreLayers: 0b000000
   lifeTime: 5
   moveForward: 0
+  destroyOnHit: 1
 --- !u!54 &-1028227004219258788
 Rigidbody:
   m_ObjectHideFlags: 0

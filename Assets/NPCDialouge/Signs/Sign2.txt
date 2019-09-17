@@ -1,0 +1,10 @@
+What can Sludger do?
+Well, he can walk and interact with things.
+But you already know that.
+More interestingly, he can use abilities.
+Sludger's current abilities are melee attacking [R1], shooting [L1], and dash [B/O].
+Don't try them out yet! There's more!
+He was designed with an ability slot system.
+This means future abilites are both easy to add and can also be swapped out.
+That's right you'll be able to create your own playstyle by swapping abilities!
+Okay, now you can try those abilites: melee attacking [R1], shooting [L1], and dash [B/O]
