@@ -1,0 +1,8 @@
+// Too close! Stop moving.
+IF pathDist <= 5
+    move stop true
+ENDIF
+// Too far! Catch up.
+IF pathDist > 5
+    move stop false
+ENDIF
