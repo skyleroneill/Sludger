@@ -20,7 +20,7 @@ public class HealOnTouch : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         // Heal the gameobject we collided with if it is tagged with the heal tag and it has health
         if (other.gameObject.tag == healTag && other.gameObject.GetComponent<Health>())

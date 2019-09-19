@@ -2018,7 +2018,7 @@ MonoBehaviour:
     exclusiveUse: 1
     onCooldown: 0
     cooldownTime: 0.2
-  - abil: {fileID: 11400000, guid: a59c51fd1d50c1e4caf3b5880779f067, type: 2}
+  - abil: {fileID: 11400000, guid: 5e435d140b43a7e4f9efdfeaa76954d2, type: 2}
     exclusiveUse: 0
     onCooldown: 0
     cooldownTime: 0.35

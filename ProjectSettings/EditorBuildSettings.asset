@@ -36,6 +36,9 @@ EditorBuildSettings:
     path: Assets/Scenes/PresentationScenes/MutantRoom.unity
     guid: 420b0ecf56b35154bb9457010437a359
   - enabled: 1
+    path: Assets/Scenes/PresentationScenes/EndRoom.unity
+    guid: 23b62435fa6dc9f41a3f3e06c1b7e59e
+  - enabled: 1
     path: Assets/Scenes/PresentationScenes/KingRoom.unity
     guid: 6a4d47e91d3230443ad3e74ac55ea1e7
   - enabled: 1

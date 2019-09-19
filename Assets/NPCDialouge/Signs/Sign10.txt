@@ -1,0 +1,12 @@
+Well, that's what there is to Sludger right now.
+Now is the part where I talk about the information this presentation is supposed to include.
+Team Name: Team Sludger
+Members: Just Skyler
+Who do we need: 2D and 3D Artist(s), Musician, Writer, Game Designer
+Product Backlog:
+Good art,
+More player abilities and ability swap system,
+Improvements to NPC system, 
+More NPCs/enemies,
+Multiple levels,
+Overworld map

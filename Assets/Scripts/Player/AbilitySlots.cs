@@ -56,7 +56,7 @@ public class AbilitySlots : MonoBehaviour
         }
 
         // Right trigger
-        if(abilities[2].abil && !abilities[2].onCooldown && Input.GetAxis("Ability2") != 0f){
+        if(abilities[2].abil && !abilities[2].onCooldown && (Input.GetAxis("Ability2") != 0f || Input.GetKeyDown(KeyCode.Space))){
             abilities[2].abil.ActivateAbility();
             onGlobalCooldown = abilities[2].exclusiveUse;
             StartCoroutine(CooldownTime(2));
@@ -70,7 +70,7 @@ public class AbilitySlots : MonoBehaviour
         }
 
         // Bottom Button, A/X
-        if(abilities[4].abil && !abilities[4].onCooldown && Input.GetButtonDown("BottomButton")){
+        if(abilities[4].abil && !abilities[4].onCooldown && ((Input.GetButtonDown("BottomButton")) || (Input.GetKeyDown(KeyCode.Return)))){
             abilities[4].abil.ActivateAbility();
             onGlobalCooldown = abilities[4].exclusiveUse;
             StartCoroutine(CooldownTime(4));
