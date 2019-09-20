@@ -33,6 +33,7 @@ public class NPCTalk : MonoBehaviour
     private bool inConversation = false;
     private bool isListener = false;
     private bool isPrinting = false;
+    private bool justSayIt = false;
     private string currSpeech = ""; // What the NPC is currently saying
 
     private string[][] conversationLines;
@@ -115,6 +116,14 @@ public class NPCTalk : MonoBehaviour
             return;
         }
 
+        // If this function is called while printing, then just display the text
+        // For the impatient people
+        if(isPrinting){
+            if(debug) Debug.Log("Just saying it.");
+            justSayIt = true;
+            return;
+        }
+
         // Cycle conversation lines
         if(currConvLine < conversationLines[currentConversation].Length && !isPrinting){
             if(debug) Debug.Log(gameObject.name + " Converses: " + conversationLines[currentConversation][currConvLine]);
@@ -185,8 +194,8 @@ public class NPCTalk : MonoBehaviour
 
         // Instantly say text if text speed is 0 or less
         if(textSpeed <= 0f){
-            speechText.text = speech;
             isPrinting = false;
+            speechText.text = speech;
             yield break;
         }
         // Say the first character
@@ -207,11 +216,20 @@ public class NPCTalk : MonoBehaviour
                 yield break;
             }
 
+            // Just say it without printing
+            if(justSayIt){
+                justSayIt = false;
+                isPrinting = false;
+                speechText.text = speech;
+                yield break;
+            }
+
             // Add the new character to speechText and increment to next character
             speechText.text += speech[currChar];
             currChar++;
         }
 
+        justSayIt = false;
         isPrinting = false;
         yield return null;
     }

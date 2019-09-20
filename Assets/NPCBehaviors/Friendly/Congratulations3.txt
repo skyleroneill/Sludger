@@ -1,0 +1,7 @@
+move path false
+IF distToTarget <= 2
+    talk say *Clap clap clap*
+ENDIF
+IF distToTarget > 2
+    talk silence
+ENDIF
