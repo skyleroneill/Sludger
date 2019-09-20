@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fead5434a0cde8f4098cca5b1ff6024a, type: 3}
   m_Name: PrototypeMelee
   m_EditorClassIdentifier: 
-  debug: 1
+  debug: 0
   cost: 0
   cooldown: 0.2
   animationParameter: 

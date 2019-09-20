@@ -8,6 +8,9 @@ public class Health : MonoBehaviour
     [Tooltip("The player is invincible when God Mode is true.")]
     [SerializeField]
     private bool godMode = false;
+    [Tooltip("The player takes damage, but cannot die.")]
+    [SerializeField]
+    private bool buddhaMode = false;
     [Tooltip("Maximum number of hit points until death.")]
     [SerializeField]
     private int maxHitPoints = 10;
@@ -41,6 +44,13 @@ public class Health : MonoBehaviour
         if (godMode || onITime || onIFrames) return 0;
 
         if (debug) Debug.Log("Hurting " + gameObject.name + " " + amount + " damage.");
+
+        if (buddhaMode && (currentHitPoints - amount) <= 0)
+        {
+            currentHitPoints = 1;
+            return amount;
+        }
+
         currentHitPoints -= amount;
 
         return amount;
@@ -52,6 +62,13 @@ public class Health : MonoBehaviour
         if (godMode || onITime || onIFrames) return 0;
 
         if (debug) Debug.Log("Hurting " + gameObject.name + " " + amount + " damage.");
+
+        if (buddhaMode && (currentHitPoints - amount) <= 0)
+        {
+            currentHitPoints = 1;
+            return amount;
+        }
+
         currentHitPoints -= amount;
 
         StartCoroutine(InvincibilityTime());
@@ -83,6 +100,11 @@ public class Health : MonoBehaviour
 
     public void SetMaxHealth(int newMax)
     {
+        if(newMax <= 0)
+        {
+            if (debug) Debug.Log(gameObject.name + ": Invalid health set of " + newMax);
+            return;
+        }
         float frac = currentHitPoints / maxHitPoints;
         maxHitPoints = newMax;
         currentHitPoints = (int)(maxHitPoints * frac);
@@ -122,9 +144,19 @@ public class Health : MonoBehaviour
         if(debug) Debug.Log(gameObject.name + " God Mode: " + newVal);
     }
 
+    public void SetBuddhaMode(bool newVal)
+    {
+        buddhaMode = newVal;
+        if (debug) Debug.Log(gameObject.name + " Buddha Mode: " + newVal);
+    }
+
     public bool IsGod()
     {
         return godMode;
+    }
+    public bool IsBuddha()
+    {
+        return buddhaMode;
     }
 
     IEnumerator InvincibilityTime(){

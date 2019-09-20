@@ -1994,6 +1994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 0
   godMode: 0
+  buddhaMode: 1
   maxHitPoints: 25
   currentHitPoints: 0
   iTime: 0.2
@@ -2149,7 +2150,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588813486530049008}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93b34e2ed583d454190ecbf0f77d283b, type: 3}
   m_Name: 
