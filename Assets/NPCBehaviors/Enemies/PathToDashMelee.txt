@@ -12,7 +12,52 @@ IF pathDist < 10
     move path true
     aim idleType moveDir
     aim track false
-    // Dash towards the player if in range
+	// Don't do any dash if the player is not visible
+	IF cannotSeeTarget
+		behavior reset
+	ENDIF
+	// Dash towards the player if in range MIN
+    IF distToTarget < 0.5
+        move path false
+        aim track true
+		move stop true
+        aim idleType lastDir
+        shoot 1
+        move path true
+        wait 1
+		behavior reset
+	ENDIF
+	// Dash towards the player if in range MID MIN
+    IF distToTarget < 1
+        move path false
+        aim track true
+        aim idleType lastDir
+        wait 0.005
+        aim track false
+        move direction forward
+        wait 0.01
+        shoot 1
+        move stop true
+        move path true
+        wait 1
+		behavior reset
+	ENDIF
+	// Dash towards the player if in range MID MAX
+    IF distToTarget < 2
+        move path false
+        aim track true
+        aim idleType lastDir
+        wait 0.0075
+        aim track false
+        move direction forward
+        wait 0.05
+        shoot 1
+        move stop true
+        move path true
+        wait 1
+		behavior reset
+	ENDIF
+    // Dash towards the player if in range MAX
     IF distToTarget < 3
         move path false
         aim track true
@@ -20,9 +65,11 @@ IF pathDist < 10
         wait 0.01
         aim track false
         move direction forward
-        wait 0.18
+        wait 0.12
         shoot 1
         move stop true
         move path true
         wait 1
+		behavior reset
+	ENDIF
 ENDIF

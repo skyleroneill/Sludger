@@ -145,9 +145,38 @@ event has occurred. The int specifies the index of the behavior being changed to
 -----
 
 behavior change random/rand
-changes the current behavior to a random behavior. This is done whether the NPC
+Changes the current behavior to a random behavior. This is done whether the NPC
 is set to select its next behavior randomly or not. Useful for exiting a behavior
 early.
+
+-----
+
+behavior reset/resetCurrent
+Returns to the first action in the current behavior script.
+
+---------------------------------------------------------------------------------
+Talk:
+The talk category contains actions involving the NPCs talking behaviors.
+
+talk say <string>
+Causes the NPC to say whatever text is written after the command.
+
+-----
+
+talk canConverse <bool>
+Can the NPC converse or not. Conversing is a seperate behavior handled by the
+NPCTalk script.
+
+-----
+
+talk distance <float>
+How far can the NPC be from its conversation target before the conversation ends.
+Also how close the conversation target must be in order to start a conversation.
+
+-----
+
+talk silence
+Make the NPC stop saying anything. Sets their current speech text to an empty string.
 
 ---------------------------------------------------------------------------------
 IF:
@@ -165,6 +194,8 @@ Valid left values are:
     pathDistance/pathDist                     - The distance to the current destination along the path.
     distanceToFirePoint/distToFirePoint <int> - The distance from a specified fire point to the target
     shots                                     - The number of shots this NPC has loaded
+Valid single bools are:
+	inConversation                            - True if this NPC is in a conversation, but false otherwise
 Valid camparison operators are:
     <, >, =, ==, <=, >=, !=
 
@@ -191,6 +222,9 @@ Valid left values are:
     pathDistance/pathDist                     - The distance to the current destination along the path.
     distanceToFirePoint/distToFirePoint <int> - The distance from a specified fire point to the target
     shots                                     - The number of shots this NPC has loaded
+Valid single bools are:
+	inConversation                            - True if this NPC is in a conversation, but false otherwise
+	notInConversation						  - True if this NPC is NOT in a conversation, false otherwise
 Valid camparison operators are:
     <, >, =, ==, <=, >=, !=
 

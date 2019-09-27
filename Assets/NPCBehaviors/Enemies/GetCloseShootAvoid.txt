@@ -17,18 +17,33 @@ IF pathDist > 5
         aim idletype movedir
         move path true
         move stop false
+	ENDIF
 ENDIF
 // Stop, aim and shoot if close to player
 IF pathDist <= 5
     IF distToTarget > 2
-        aim track true
-        move stop true
-        shoot 5
+		// If the NPC can see the player then we fire
+		IF canSeeTarget
+			aim track true
+			move stop true
+			shoot 5
+		ENDIF
+		// If the NPC cannot see the player, then it paths to the player instead
+		IF cannotSeeTarget
+			shoot stop
+			aim track false
+			aim idletype movedir
+			move path true
+			move stop false
+		ENDIF
+	ENDIF
 ENDIF
-// If the player is too close then move away
+// If the player is too close and visible then move away
 IF distToTarget <= 2
-    move stop false
-    move path false
-    move direction backward
-    aim track true
+	IF canSeeTarget
+		move stop false
+		move path false
+		move direction backward
+		aim track true
+	ENDIF
 ENDIF

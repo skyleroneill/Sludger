@@ -120,7 +120,7 @@ public class NPCShoot : MonoBehaviour
 
     public Transform GetFirePoint(int i){
         // Return the current firepoint if the given index is out of bounds
-        if(i >= bulletOrigins.Length)
+        if(i >= bulletOrigins.Length || i < 0)
             return bulletOrigins[currOrigin];
         
         return bulletOrigins[i];

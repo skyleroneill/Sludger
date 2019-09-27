@@ -22,6 +22,7 @@ public class NPCBrain : MonoBehaviour
     private string[] actions;
     private int currentAction = 0;
     private bool skipToEndIf = false;
+    private int endifsToSkip = 0;
 
     private ObjectTargeting targeting;
     private NPCAim aim;
@@ -208,10 +209,45 @@ public class NPCBrain : MonoBehaviour
         // Is the NPC not in a conversation
         else if(boolean[0].Contains("notinconversation"))
             return !talk.isInConversation();
+        // Can the NPC see its target
+        else if (boolean[0].Contains("canseetarget")){
+            RaycastHit rch;
+            Vector3 rayDir = (targeting.GetCurrentTarget().transform.position.WithY(shoot.GetFirePoint(-1).position.y)
+                              - shoot.GetFirePoint(-1).position).normalized;
+            // Raycast from the current firepoint (the last one fired)
+            Physics.Raycast(shoot.GetFirePoint(-1).position, rayDir, out rch, 100f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+            // True if the current target has a collider and the collider was hit
+            if (targeting.GetCurrentTarget().GetComponent<Collider>() && rch.transform == targeting.GetCurrentTarget().transform)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        // Can the NPC NOT see its target
+        else if (boolean[0].Contains("cannotseetarget"))
+        {
+            RaycastHit rch;
+            Vector3 rayDir = (targeting.GetCurrentTarget().transform.position.WithY(shoot.GetFirePoint(-1).position.y) 
+                              - shoot.GetFirePoint(-1).position).normalized;
+            // Raycast from the current firepoint (the last one fired)
+            Physics.Raycast(shoot.GetFirePoint(-1).position, rayDir, out rch, 100f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+            // False if the current target has a collider and the collider was hit
+            if (targeting.GetCurrentTarget().GetComponent<Collider>() && rch.transform == targeting.GetCurrentTarget().transform)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         // Given boolean statement not supported
         // Skip to the endif
-        if(debug) Debug.Log("Boolean statement /'" + actions[currentAction] + "/' not supported.");
+        if (debug) Debug.Log("Boolean statement /'" + actions[currentAction] + "/' not supported.");
         return false;
     }
 
@@ -444,6 +480,14 @@ public class NPCBrain : MonoBehaviour
                         int.TryParse(act[2], out bIndex);
                         ChangeBehaviorScript(bIndex);
                     }
+                }else if(act.Length == 2){
+                    // Return to the first instruction of the current script
+                    if (act[1].Contains("reset") || act[1].Contains("resetcurrent")){
+                        // Return to first instruction
+                        currentAction = 0;
+                        // No longer skip to endif
+                        skipToEndIf = false;
+                    }
                 }
             }else if(act[0].Contains("talk")){ // ** Speech actions **
                 // Say the given text
@@ -491,10 +535,21 @@ public class NPCBrain : MonoBehaviour
                     }
                 }
             }else if(act[0].Contains("endif")){ // ** EndIF action **
-                skipToEndIf = false;
+                if (endifsToSkip != 0)
+                    endifsToSkip--;
+                else
+                    skipToEndIf = false;
+            }else if(act[0].Contains("if") && skipToEndIf){ // ** Find an If while looking for EndIf
+                endifsToSkip++;
             }else if(act[0].Contains("if")){ // ** If action ** 
                 // Set whether or not to skip to the endif based upon the given boolean statment
-                if(act.Length == 4){
+                if (act.Length == 2)
+                {
+                    string[] boolStatement = { act[1]};
+                    // Whether or not to skip is the opposite of the boolean's value
+                    skipToEndIf = !ResolveBoolean(boolStatement);
+                }
+                if (act.Length == 4){
                     string[] boolStatement = {act[1], act[2], act[3]};
                     // Whether or not to skip is the opposite of the boolean's value
                     skipToEndIf = !ResolveBoolean(boolStatement);
@@ -512,6 +567,11 @@ public class NPCBrain : MonoBehaviour
                     yield return StartCoroutine(Wait(time));
                 }
                 // Wait until the given boolean statement is true
+                else if (act.Length == 2){
+                    string[] boolStatement = { act[1] };
+                    // Whether or not to skip is the opposite of the boolean's value
+                    skipToEndIf = !ResolveBoolean(boolStatement);
+                }
                 else if(act.Length == 4){
                     string[] boolStatement = {act[1], act[2], act[3]};
                     // Continue without moving to the next action if boolean statement is false
