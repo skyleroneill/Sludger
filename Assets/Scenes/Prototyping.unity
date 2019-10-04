@@ -767,7 +767,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-22714
+  m_Name: pb_Mesh29104
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2196,8 +2196,8 @@ GameObject:
   - component: {fileID: 614602850}
   - component: {fileID: 614602852}
   m_Layer: 5
-  m_Name: Frame
-  m_TagString: Untagged
+  m_Name: HealthBubble
+  m_TagString: HealthBubble
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2273,8 +2273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5179354373f65f4487339e03d1aa974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
   heartImage: {fileID: 1226942760}
-  interpolant: 0.75
+  valueText: {fileID: 0}
+  interpolant: 0.01
   snapThreshold: 0.05
   maxValue: 25
   currentValue: 25
@@ -6412,7 +6414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.49019608}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7767,6 +7769,27 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1658200394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1588813486530049008, guid: c85cc3218d24da447b5479d832fa98f2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1532611673}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1658200395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658200394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6883439515272bf48b8d5c1f89fcae4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  healthBubbleTag: HealthBubble
+  healthBubble: {fileID: 0}
 --- !u!43 &1772829114
 Mesh:
   m_ObjectHideFlags: 0
