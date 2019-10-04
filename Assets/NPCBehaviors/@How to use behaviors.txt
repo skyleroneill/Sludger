@@ -1,5 +1,5 @@
 HOW TO USE BEHAVIOR SCRIPTS
-Last updated: 06/26/2019
+Last updated: 09/27/2019
 
 Behavior scripts allow for modular enemy behavior patterns. Each behavior scripts
 is comprised of lines of behaviors called actions. Actions fall into one of seven 

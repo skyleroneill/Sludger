@@ -269,7 +269,7 @@ public class NPCBrain : MonoBehaviour
                 if(randomScript) RandomScript();
             }
 
-            // Convert current action to lower and spit it by words, ignore empty
+            // Convert current action to lower and split it by words, ignore empty
             string[] act = actions[currentAction].ToLower().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
             // Skip empty lines and comments
