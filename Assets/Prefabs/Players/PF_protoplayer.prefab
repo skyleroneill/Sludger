@@ -1941,6 +1941,7 @@ GameObject:
   - component: {fileID: 5913636775035247382}
   - component: {fileID: 1537357091}
   - component: {fileID: 3089392989066265379}
+  - component: {fileID: 1658200395}
   m_Layer: 8
   m_Name: PF_protoplayer
   m_TagString: Player
@@ -2157,6 +2158,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathText: {fileID: 0}
   deathMessage: You would be dead.
+--- !u!114 &1658200395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588813486530049008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6883439515272bf48b8d5c1f89fcae4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  healthBubbleTag: HealthBubble
+  healthBubble: {fileID: 0}
 --- !u!114 &892856690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2177,6 +2193,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1588813486530049013}
     m_Modifications:
+    - target: {fileID: 7899030639488589003, guid: 2f53ecda539509b4eb99a2ddf22a3c5e,
+        type: 3}
+      propertyPath: m_Name
+      value: PF_PlayerSprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 7899030639488589003, guid: 2f53ecda539509b4eb99a2ddf22a3c5e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7899030639488589044, guid: 2f53ecda539509b4eb99a2ddf22a3c5e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2231,16 +2257,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7899030639488589003, guid: 2f53ecda539509b4eb99a2ddf22a3c5e,
-        type: 3}
-      propertyPath: m_Name
-      value: PF_PlayerSprite
-      objectReference: {fileID: 0}
-    - target: {fileID: 7899030639488589003, guid: 2f53ecda539509b4eb99a2ddf22a3c5e,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7899030639488589045, guid: 2f53ecda539509b4eb99a2ddf22a3c5e,
         type: 3}

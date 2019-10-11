@@ -11,6 +11,9 @@ public abstract class PlayerAbility : ScriptableObject
     [Tooltip("The time between uses of this ability.")]
     [SerializeField]
     protected float cooldown;
+    [Tooltip("Set true if this ability must be off of cooldown before another ability can be used. Set false if other abilities can be used simultaneously.")]
+    [SerializeField]
+    protected bool exclusiveUse;
     [Tooltip("The name of the animation parameter for this ability.")]
     [SerializeField]
     protected string animationParameter;
@@ -27,6 +30,14 @@ public abstract class PlayerAbility : ScriptableObject
 
     public float GetCooldown(){
         return cooldown;
+    }
+
+    public int GetCost(){
+        return cost;
+    }
+
+    public bool GetExclusiveUse(){
+        return exclusiveUse;
     }
 
     public virtual void StartAnimationEvent(){

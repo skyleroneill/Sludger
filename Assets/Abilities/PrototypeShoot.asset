@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5427dcdc2c4be304ba36a6d86c0ac0ea, type: 3}
   m_Name: PrototypeShoot
   m_EditorClassIdentifier: 
+  debug: 0
   cost: 1
   cooldown: 0.2
+  exclusiveUse: 1
+  animationParameter: 
   bullet: {fileID: 5295246475650495907, guid: a6f1368f3a48d4c44a2b5edfc55765e1, type: 3}
   power: 2
   speed: 15
+  firePointName: FirePoint

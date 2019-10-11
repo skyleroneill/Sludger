@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e7867715538f39488eaf1a0233823c6, type: 3}
   m_Name: PrototypeRoll
   m_EditorClassIdentifier: 
+  debug: 0
   cost: 0
   cooldown: 0.5
+  exclusiveUse: 1
   animationParameter: rolling
   rollForce: 9
   rollAcceleration: 4

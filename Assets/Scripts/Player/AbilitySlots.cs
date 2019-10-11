@@ -6,7 +6,7 @@ using UnityEngine;
 public struct Ability
 {
     public PlayerAbility abil;
-    [Tooltip("Set true if this ability must be off of cooldown before another ability can be used. Set false if other abilities can be used simultaneously.")]
+    [HideInInspector]
     public bool exclusiveUse;
     [HideInInspector]
     public bool onCooldown;
@@ -25,6 +25,9 @@ public class AbilitySlots : MonoBehaviour
     // Used for abilities that cannot have other abilities used simultaneously.
     private bool onGlobalCooldown = false;
 
+    private bool RTInUse = false;
+    private bool LTInUse = false;
+
     private void Start(){
         // Initialize the player's abilities
         for (int i = 0; i < SIZE; i++)
@@ -34,6 +37,7 @@ public class AbilitySlots : MonoBehaviour
             abilities[i].abil.Initialize();
             abilities[i].onCooldown = false;
             abilities[i].cooldownTime = abilities[i].abil.GetCooldown();
+            abilities[i].exclusiveUse = abilities[i].abil.GetExclusiveUse();
         }
     }
 
@@ -56,21 +60,27 @@ public class AbilitySlots : MonoBehaviour
         }
 
         // Right trigger
-        if(abilities[2].abil && !abilities[2].onCooldown && (Input.GetAxis("Ability2") != 0f || Input.GetKeyDown(KeyCode.Space))){
+        if(abilities[2].abil && !abilities[2].onCooldown && !RTInUse && (Input.GetAxis("Ability2") != 0f || Input.GetKeyDown(KeyCode.Space))){
+            RTInUse = true;
             abilities[2].abil.ActivateAbility();
             onGlobalCooldown = abilities[2].exclusiveUse;
             StartCoroutine(CooldownTime(2));
         }
+        // Right trigger no longer in use
+        if (Input.GetAxis("Ability2") == 0f) RTInUse = false;
 
         // Left trigger
-        if(abilities[3].abil && !abilities[3].onCooldown && Input.GetAxis("Ability3") != 0f){
+        if(abilities[3].abil && !abilities[3].onCooldown && !LTInUse && Input.GetAxis("Ability3") != 0f){
+            LTInUse = true;
             abilities[3].abil.ActivateAbility();
             onGlobalCooldown = abilities[3].exclusiveUse;
             StartCoroutine(CooldownTime(3));
         }
+        // Right trigger no longer in use
+        if (Input.GetAxis("Ability3") == 0f) LTInUse = false;
 
         // Bottom Button, A/X
-        if(abilities[4].abil && !abilities[4].onCooldown && ((Input.GetButtonDown("BottomButton")) || (Input.GetKeyDown(KeyCode.Return)))){
+        if (abilities[4].abil && !abilities[4].onCooldown && ((Input.GetButtonDown("BottomButton")) || (Input.GetKeyDown(KeyCode.Return)))){
             abilities[4].abil.ActivateAbility();
             onGlobalCooldown = abilities[4].exclusiveUse;
             StartCoroutine(CooldownTime(4));
@@ -118,6 +128,41 @@ public class AbilitySlots : MonoBehaviour
         if(!abilities[a].abil || a >= SIZE) return;
 
         abilities[a].abil.EndAnimationEvent();
+    }
+
+    public int EquipAbility(int slot, PlayerAbility ability)
+    {
+        // Equip and set up the new ability
+        abilities[slot].abil = ability;
+        abilities[slot].abil.SetPlayer(gameObject);
+        abilities[slot].abil.Initialize();
+        abilities[slot].onCooldown = false;
+        abilities[slot].cooldownTime = abilities[slot].abil.GetCooldown();
+        abilities[slot].exclusiveUse = abilities[slot].abil.GetExclusiveUse();
+        return ability.GetCost(); // Return the cost of the added ability
+    }
+
+    public int RemoveAbility(int slot)
+    {
+        // No ability, cost is 0
+        if (abilities[slot].abil == null) return 0;
+
+        int abilCost = abilities[slot].abil.GetCost();
+        // Unset the ability by setting it to null
+        abilities[slot].abil = null;
+        return abilCost; // Return the cost of the removed ability
+    }
+
+    public bool CheckEquipped(PlayerAbility ability)
+    {
+        foreach (Ability a in abilities)
+        {
+            // If the ability is found in the ability slots then it is equipped
+            if (a.abil == ability)
+                return true;
+        }
+        // The abilty wasn't found in the ability slots, so it is not equipped
+        return false;
     }
 
     // Put an ability given by slot number on cooldown for its cooldown time
