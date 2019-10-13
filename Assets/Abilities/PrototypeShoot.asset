@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PrototypeShoot
   m_EditorClassIdentifier: 
   debug: 0
+  abilityName: Basic Shoot
   cost: 1
   cooldown: 0.2
   exclusiveUse: 1

@@ -5,6 +5,9 @@ using UnityEngine;
 public abstract class PlayerAbility : ScriptableObject
 {
     public bool debug = false;
+    [Tooltip("The in-game name of this ability.")]
+    [SerializeField]
+    protected string abilityName;
     [Tooltip("How much of a resource, such as health, is expended by using this ability.")]
     [SerializeField]
     protected int cost;
@@ -27,6 +30,10 @@ public abstract class PlayerAbility : ScriptableObject
 
     public abstract void Initialize();
     public abstract void ActivateAbility();
+
+    public string GetAbilityName(){
+        return abilityName;
+    }
 
     public float GetCooldown(){
         return cooldown;

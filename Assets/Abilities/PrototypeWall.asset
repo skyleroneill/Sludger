@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: PrototypeWall
   m_EditorClassIdentifier: 
   debug: 0
+  abilityName: Spawn Wall
   cost: 5
   cooldown: 5
+  exclusiveUse: 0
   animationParameter: 
   spawn: {fileID: 4076937138757903057, guid: 6a645985f4779ee478bc93108fd13bbb, type: 3}
   spawnDistance: 1

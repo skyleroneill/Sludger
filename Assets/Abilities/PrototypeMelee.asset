@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PrototypeMelee
   m_EditorClassIdentifier: 
   debug: 1
+  abilityName: Basic Melee
   cost: 0
   cooldown: 0.2
   exclusiveUse: 1

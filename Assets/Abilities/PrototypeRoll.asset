@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PrototypeRoll
   m_EditorClassIdentifier: 
   debug: 0
+  abilityName: Roll
   cost: 0
   cooldown: 0.5
   exclusiveUse: 1

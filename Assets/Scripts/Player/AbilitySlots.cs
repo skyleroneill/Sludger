@@ -165,6 +165,10 @@ public class AbilitySlots : MonoBehaviour
         return false;
     }
 
+    public bool CheckEquipped(int slot){
+        return abilities[slot].abil != null;
+    }
+
     // Put an ability given by slot number on cooldown for its cooldown time
     IEnumerator CooldownTime(int slot){
         abilities[slot].onCooldown = true;

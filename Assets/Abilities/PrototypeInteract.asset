@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: PrototypeInteract
   m_EditorClassIdentifier: 
   debug: 0
+  abilityName: Interact
   cost: 0
   cooldown: 0
+  exclusiveUse: 0
   animationParameter: 
