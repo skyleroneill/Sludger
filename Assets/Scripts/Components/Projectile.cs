@@ -11,6 +11,9 @@ public class Projectile : MonoBehaviour
     [Tooltip("The amount of hit point damage this attack will do.")]
     [SerializeField]
     protected int power = 1;
+    [Tooltip("The amount of knockback this projectile will appy when it hits an object that can be knocked back. Zero or fewer results in no knockback.")]
+    [SerializeField]
+    protected float knockbackForce = 0f;
     [Tooltip("The layers that this projectile will ignore.")]
     [SerializeField]
     protected List<int> ignoreLayers;
@@ -62,6 +65,19 @@ public class Projectile : MonoBehaviour
         // Don't collide with objects on an ignoreLayer
         foreach(int layer in ignoreLayers){
             if(hit.layer == layer) return;
+        }
+
+        // Apply knockback force to the target that was hit if it has a HitstunAndKnockback component
+        if(hit.GetComponent<HitstunAndKnockback>() && knockbackForce > 0f){
+            if(rb.velocity != Vector3.zero) // Apply knockback in direction of moving projectiles
+                hit.GetComponent<HitstunAndKnockback>().Knockback(rb.velocity, knockbackForce);
+            else // Apply knockback in direction of hit from the projectile
+                hit.GetComponent<HitstunAndKnockback>().Knockback(hit.transform.position - transform.position, knockbackForce);
+        }
+
+        // Apply hitstun to the target that was hit if it has a HitstunAndKnockback component
+        if(hit.GetComponent<HitstunAndKnockback>()){
+            hit.GetComponent<HitstunAndKnockback>().Hitstun();
         }
 
         // Damage the collided object if it has health

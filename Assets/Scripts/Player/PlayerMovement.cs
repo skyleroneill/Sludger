@@ -193,4 +193,8 @@ public class PlayerMovement : MonoBehaviour
         burstTimer = 0f;
         burst = true;
     }
+
+    public void SetCanMove(bool b){
+        canMove = b;
+    }
 }
