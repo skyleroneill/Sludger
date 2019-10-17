@@ -193,7 +193,7 @@ public class PlayerAbilityManager : MonoBehaviour
         APBar.value = currentAbilityPoints;
 
         // If this is a valid abilty slot, then set its slot label to say it is empty
-        if(slot > 0 && slot < slottedAbilityLabels.Length && slottedAbilityLabels[slot])
+        if(slot >= 0 && slot < slottedAbilityLabels.Length && slottedAbilityLabels[slot])
             slottedAbilityLabels[slot].text = "Empty Slot";
     }
 

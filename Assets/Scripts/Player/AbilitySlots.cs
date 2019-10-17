@@ -16,6 +16,8 @@ public struct Ability
 
 public class AbilitySlots : MonoBehaviour
 {
+    [SerializeField]
+    private bool canUseAbilities = true;
     private const int SIZE = 8; // There can only be 4 abilities
     [Tooltip("The abilities this player has equipped. Up to four abilities can be equipped.\n0: Right Bumper\n1: Left Bumper\n2: Right Trigger\n3: Left Trigger\n4: Bottom Button\n5: Right Button\n6: Left Button\n7: Top Button")]
     [SerializeField]
@@ -42,8 +44,8 @@ public class AbilitySlots : MonoBehaviour
     }
 
     private void Update(){
-        // Can't use abilities while on a global cooldown
-        if(onGlobalCooldown) return;
+        // Can't use abilities while on a global cooldown or if the player can't use abilities
+        if(onGlobalCooldown || !canUseAbilities) return;
 
         // Right bumper
         if(abilities[0].abil && !abilities[0].onCooldown && Input.GetButtonDown("Ability0")){
@@ -167,6 +169,10 @@ public class AbilitySlots : MonoBehaviour
 
     public bool CheckEquipped(int slot){
         return abilities[slot].abil != null;
+    }
+
+    public void SetCanUseAbilities(bool b){
+        canUseAbilities = b;
     }
 
     // Put an ability given by slot number on cooldown for its cooldown time
