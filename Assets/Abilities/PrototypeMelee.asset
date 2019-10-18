@@ -21,5 +21,5 @@ MonoBehaviour:
   range: 0.75
   hitBox: {fileID: 725101442114984911, guid: 4dca46aa155ab2942adae571e0e8cd1e, type: 3}
   power: 1
-  knockbackForce: 3
+  knockbackForce: 8
   hitstunDuration: 0.1

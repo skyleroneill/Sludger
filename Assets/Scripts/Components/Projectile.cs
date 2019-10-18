@@ -94,6 +94,12 @@ public class Projectile : MonoBehaviour
             if (hit.GetComponent<HitstunAndKnockback>())
             {
                 hit.GetComponent<HitstunAndKnockback>().Hitstun(hitstunDuration);
+
+                // NPC knockback/stun
+                if(rb.velocity != Vector3.zero) // Apply knockback in direction of moving projectiles
+                    hit.GetComponent<HitstunAndKnockback>().NPCKnockbackAndHitstun(rb.velocity, knockbackForce, hitstunDuration);
+                else // Apply knockback in direction of hit from the projectile
+                    hit.GetComponent<HitstunAndKnockback>().NPCKnockbackAndHitstun(hit.transform.position - transform.position, knockbackForce, hitstunDuration);
             }
 
             // Destroy the projectile when destroyOnHit is true and it did damage

@@ -80,6 +80,9 @@ public class MeleeAbility : PlayerAbility
 
             // Apply hitstun
             rch.gameObject.GetComponent<HitstunAndKnockback>().Hitstun(hitstunDuration);
+
+            // Apply knockback and hitstun for NPCs
+            rch.gameObject.GetComponent<HitstunAndKnockback>().NPCKnockbackAndHitstun(aimDir.GetAimDirection(), knockbackForce, hitstunDuration);
         }
     }
 }

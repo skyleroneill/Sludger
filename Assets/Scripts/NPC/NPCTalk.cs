@@ -29,6 +29,12 @@ public class NPCTalk : MonoBehaviour
     [Tooltip("Will this NPC select its current conversation at random. If false then conversations will be selected sequentially.")]
     [SerializeField]
     private bool chooseRandomConversation = false;
+    [Tooltip("The image that will be this NPC's Speech bubble.")]
+    [SerializeField]
+    private Image speechBubble;
+    [Tooltip("The image that will indicate that the player is in range to converse with this NPC.")]
+    [SerializeField]
+    private Image speechIndicator;
 
     private bool inConversation = false;
     private bool isListener = false;
@@ -39,7 +45,6 @@ public class NPCTalk : MonoBehaviour
     private string[][] conversationLines;
     private int currConvLine = 0;
     private Text speechText;
-    private Image speechBubble;
 
     private void Start(){
         // If there is a text component in the children of this game object
@@ -51,11 +56,15 @@ public class NPCTalk : MonoBehaviour
             if(debug) Debug.Log("Speech text not found on: " + gameObject.name);
         }
 
-        // If there is a text component in the children of this game object
-        if(GetComponentInChildren<Image>()){
-            speechBubble = GetComponentInChildren<Image>();
-        } else{
-            if(debug) Debug.Log("Speech bubble not found on: " + gameObject.name);
+        // If there is no speech bubble, then warn us
+        if(!speechBubble){
+            if(debug) Debug.Log("Speech bubble not set on: " + gameObject.name);
+        }
+
+        // If there is no speech indicator, then warn us
+        if (!speechIndicator)
+        {
+            if (debug) Debug.Log("Speech indicator not set on " + gameObject.name);
         }
 
         if(!conversationTarget && GameObject.FindWithTag(conversationTargetTag)){
@@ -78,6 +87,17 @@ public class NPCTalk : MonoBehaviour
         if(canConverse && InteractAbility.interact && !isListener && !isPrinting){
             isListener = true;        
             InteractAbility.interact.onInteractPressed += Converse;
+        }
+
+        // The speech indicator is not enabled and the player is within range to converse and not in a conversation
+        if(speechIndicator && !speechIndicator.enabled && !inConversation && canConverse && Vector3.Distance(transform.position, conversationTarget.position) < maxConversationDistance)
+        {
+            speechIndicator.enabled = true;
+        }
+        // The speech indicator is enabled and the player is either out of range or in a conversation with this NPC
+        else if(speechIndicator && speechIndicator.enabled && (inConversation || !canConverse || Vector3.Distance(transform.position, conversationTarget.position) > maxConversationDistance))
+        {
+            speechIndicator.enabled = false;
         }
 
         // Player is too far, end conversation

@@ -1,4 +1,5 @@
 move path false
+move stop false
 aim idletype randDir
 // Wander randomly while player is far away
 IF pathDist > 6

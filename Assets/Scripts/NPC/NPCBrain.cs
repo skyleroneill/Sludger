@@ -23,6 +23,7 @@ public class NPCBrain : MonoBehaviour
     private int currentAction = 0;
     private bool skipToEndIf = false;
     private int endifsToSkip = 0;
+    private bool paused = false;
 
     private ObjectTargeting targeting;
     private NPCAim aim;
@@ -258,6 +259,13 @@ public class NPCBrain : MonoBehaviour
             // Waits 0 seconds, thus doing nothing
             // DO NOT REMOVE
             yield return StartCoroutine(Wait(0f));
+
+            // Don't do anything if the brain is paused
+            if (paused)
+            {
+                if(debug) Debug.Log(gameObject.name + " has its brain paused.");
+                continue;
+            }
 
             // The current behavior script is finished executing
             if(currentAction >= actions.Length){
@@ -602,4 +610,17 @@ public class NPCBrain : MonoBehaviour
         // Split each line in the script and put them in an array
         actions = behaviors[selectedBehavior].text.Split('\n');
      }
+
+    public void RestartCurrentBehavior()
+    {
+        // Return to first instruction
+        currentAction = 0;
+        // No longer skip to endif
+        skipToEndIf = false;
+    }
+
+    public void TogglePauseBrain(bool toggle)
+    {
+        paused = toggle;
+    }
 }
