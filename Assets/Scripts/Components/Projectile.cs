@@ -101,12 +101,12 @@ public class Projectile : MonoBehaviour
                 else // Apply knockback in direction of hit from the projectile
                     hit.GetComponent<HitstunAndKnockback>().NPCKnockbackAndHitstun(hit.transform.position - transform.position, knockbackForce, hitstunDuration);
             }
+        }
 
-            // Destroy the projectile when destroyOnHit is true and it did damage
-            if (destroyOnHit)
-            {
-                Destroy(gameObject);
-            }
+        // Destroy the projectile on hit
+        if (destroyOnHit)
+        {
+            Destroy(gameObject);
         }
     }
 
