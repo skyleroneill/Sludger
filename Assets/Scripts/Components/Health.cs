@@ -71,7 +71,11 @@ public class Health : MonoBehaviour
 
         currentHitPoints -= amount;
 
-        StartCoroutine(InvincibilityTime());
+        if(iTime > 0f)
+        {
+            onITime = true;
+            StartCoroutine(InvincibilityTime());
+        }
         return amount;
     }
 
@@ -150,6 +154,11 @@ public class Health : MonoBehaviour
         if (debug) Debug.Log(gameObject.name + " Buddha Mode: " + newVal);
     }
 
+    public bool IsInITime()
+    {
+        return onIFrames;
+    }
+
     public bool IsGod()
     {
         return godMode;
@@ -160,7 +169,6 @@ public class Health : MonoBehaviour
     }
 
     IEnumerator InvincibilityTime(){
-        onITime = true;
         yield return new WaitForSeconds(iTime);
         onITime = false;
     }

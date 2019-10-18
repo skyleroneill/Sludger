@@ -163,12 +163,24 @@ public class PlayerAbilityManager : MonoBehaviour
 
     private void AddAbility(int slot)
     {   
-        // Check if the ability is already equipped or it is too expensive
-        if (abilitySlots.CheckEquipped(possibleAbilities[selectedAbility]) || currentAbilityPoints - possibleAbilities[selectedAbility].GetCost() < 0)
+        // Get the slot the selected ability is already equipped in
+        int equippedSlot = abilitySlots.GetEquippedSlot(possibleAbilities[selectedAbility]);
+
+        // We're trying to equip an ability into the slot is already so do nothing
+        if (equippedSlot == slot)
+            return;
+        // The selected ability is already in a slot, so remove it from that slot before we add it to the new one
+        else if (equippedSlot >= 0)
+        {
+            RemoveAbility(equippedSlot);
+        }
+
+        // Check if the ability is too expensive
+        if (currentAbilityPoints - possibleAbilities[selectedAbility].GetCost() < 0)
             return;
 
         // If there is already an ability equipped in this slot then remove it first
-        if(abilitySlots.CheckEquipped(slot))
+        if (abilitySlots.CheckEquipped(slot))
             RemoveAbility(slot);
 
         // Subtract the cost of equipping from the current amount of ability points

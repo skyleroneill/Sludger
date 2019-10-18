@@ -171,6 +171,19 @@ public class AbilitySlots : MonoBehaviour
         return abilities[slot].abil != null;
     }
 
+    public int GetEquippedSlot(PlayerAbility ability)
+    {
+        for(int i = 0; i < abilities.Length; i++)
+        {
+            // If we found the the ability in slot i, return i
+            if (abilities[i].abil == ability)
+                return i;
+        }
+
+        // The ability wasn't found in the ability slots, so -1 is returned
+        return -1;
+    }
+
     public void SetCanUseAbilities(bool b){
         canUseAbilities = b;
     }

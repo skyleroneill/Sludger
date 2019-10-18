@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class HitstunAndKnockback : MonoBehaviour
 {
-    [SerializeField]
-    private float hitstunDuration = 0f;
+    public bool debug = false;
+    [Tooltip("The material of this material when it is not in hitstun.")]
     [SerializeField]
     private Material defaultMaterial;
+    [Tooltip("The material of this material when it is in hitstun.")]
     [SerializeField]
     private Material hitMaterial;
 
@@ -19,15 +20,24 @@ public class HitstunAndKnockback : MonoBehaviour
     }
 
     public void Knockback(Vector3 dir, float force){
+        // Don't apply knockback when the gameobject is on invincibility time
+        if (gameObject.GetComponent<Health>() && gameObject.GetComponent<Health>().IsInITime())
+            return;
+
         // Player and props use Rigidbodies
         if(gameObject.GetComponent<Rigidbody>()){
             Rigidbody rb = gameObject.GetComponent<Rigidbody>();
             rb.AddForce(dir.normalized * force, ForceMode.Impulse);
+            if (debug) Debug.Log("Applied knockback to " + gameObject.name);
         }
     }
 
-    public void Hitstun(){
-        if(hitstunDuration <= 0f)
+    public void Hitstun(float time){
+        // Don't apply hitstun when:
+        //  time is invalid
+        //  We're already in hitstun
+        //  We have health and are on invincibility time
+        if(time <= 0f || inHitstun || (gameObject.GetComponent<Health>() && gameObject.GetComponent<Health>().IsInITime()))
             return;
         
         inHitstun = true;
@@ -44,7 +54,7 @@ public class HitstunAndKnockback : MonoBehaviour
         if(sprite && hitMaterial)
             sprite.material = hitMaterial;
 
-        StartCoroutine(StunTimer(hitstunDuration));
+        StartCoroutine(StunTimer(time));
     }
 
     public bool IsInHitstun(){

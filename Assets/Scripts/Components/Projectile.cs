@@ -14,6 +14,9 @@ public class Projectile : MonoBehaviour
     [Tooltip("The amount of knockback this projectile will appy when it hits an object that can be knocked back. Zero or fewer results in no knockback.")]
     [SerializeField]
     protected float knockbackForce = 0f;
+    [Tooltip("The amount of time in seconds that objects hit by this projectile will be stunned. Values of zero or less result in no hitstun.")]
+    [SerializeField]
+    protected float hitstunDuration = 0f;
     [Tooltip("The layers that this projectile will ignore.")]
     [SerializeField]
     protected List<int> ignoreLayers;
@@ -46,17 +49,17 @@ public class Projectile : MonoBehaviour
         HitBehaviour(col.gameObject);
     }
 
-    private void OnCollisionStay(Collision col){
-        HitBehaviour(col.gameObject);
-    }
+    //private void OnCollisionStay(Collision col){
+    //    HitBehaviour(col.gameObject);
+    //}
 
     private void OnTriggerEnter(Collider col){
         HitBehaviour(col.gameObject);
     }
 
-    private void OnTriggerStay(Collider col){
-        HitBehaviour(col.gameObject);
-    }
+    //private void OnTriggerStay(Collider col){
+    //    HitBehaviour(col.gameObject);
+    //}
 
     private void HitBehaviour(GameObject hit){
         // Don't collide with the object that shot it
@@ -67,27 +70,37 @@ public class Projectile : MonoBehaviour
             if(hit.layer == layer) return;
         }
 
-        // Apply knockback force to the target that was hit if it has a HitstunAndKnockback component
-        if(hit.GetComponent<HitstunAndKnockback>() && knockbackForce > 0f){
-            if(rb.velocity != Vector3.zero) // Apply knockback in direction of moving projectiles
-                hit.GetComponent<HitstunAndKnockback>().Knockback(rb.velocity, knockbackForce);
-            else // Apply knockback in direction of hit from the projectile
-                hit.GetComponent<HitstunAndKnockback>().Knockback(hit.transform.position - transform.position, knockbackForce);
-        }
-
-        // Apply hitstun to the target that was hit if it has a HitstunAndKnockback component
-        if(hit.GetComponent<HitstunAndKnockback>()){
-            hit.GetComponent<HitstunAndKnockback>().Hitstun();
-        }
+        int damageDealt = 0;
 
         // Damage the collided object if it has health
         if(hit.GetComponent<Health>()){
             // If the damage dealt is greater than 0, destroy this projectile
-            if(hit.GetComponent<Health>().TakeDamageInvincibility(power) > 0 && destroyOnHit)
-                Destroy(gameObject); 
-        }else if(destroyOnHit)
+            damageDealt = hit.GetComponent<Health>().TakeDamageInvincibility(power);
+        }
+
+        // Only do the following if the attack dealt damage
+        if (damageDealt > 0)
         {
-            Destroy(gameObject); 
+            // Apply knockback force to the target that was hit if it has a HitstunAndKnockback component
+            if (hit.GetComponent<HitstunAndKnockback>() && knockbackForce > 0f)
+            {
+                if (rb.velocity != Vector3.zero) // Apply knockback in direction of moving projectiles
+                    hit.GetComponent<HitstunAndKnockback>().Knockback(rb.velocity, knockbackForce);
+                else // Apply knockback in direction of hit from the projectile
+                    hit.GetComponent<HitstunAndKnockback>().Knockback(hit.transform.position - transform.position, knockbackForce);
+            }
+
+            // Apply hitstun to the target that was hit if it has a HitstunAndKnockback component
+            if (hit.GetComponent<HitstunAndKnockback>())
+            {
+                hit.GetComponent<HitstunAndKnockback>().Hitstun(hitstunDuration);
+            }
+
+            // Destroy the projectile when destroyOnHit is true and it did damage
+            if (destroyOnHit)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667555, g: 0.48427182, b: 0.5645241, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -767,7 +767,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1246
+  m_Name: pb_Mesh-1288
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2506,7 +2506,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-2432
+  m_Name: pb_Mesh-1260
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4812,6 +4812,11 @@ PrefabInstance:
       propertyPath: m_Tangents.Array.data[79].z
       value: NaN
       objectReference: {fileID: 0}
+    - target: {fileID: 8089244448017176449, guid: f59a84d00cff6ba45a93e8528c23b607,
+        type: 3}
+      propertyPath: iTime
+      value: 0.075
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f59a84d00cff6ba45a93e8528c23b607, type: 3}
 --- !u!1 &1094748155
@@ -6596,6 +6601,27 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1513082128 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8089244448017176450, guid: f59a84d00cff6ba45a93e8528c23b607,
+    type: 3}
+  m_PrefabInstance: {fileID: 1083017668}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1513082129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513082128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 958ed8817faa45144875b2fd1a62f304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  defaultMaterial: {fileID: 2100000, guid: 7377cac08f749ea4c9f3562b1d654ce6, type: 2}
+  hitMaterial: {fileID: 2100000, guid: 1aefbd00d85e44742b386a6307bded1d, type: 2}
 --- !u!1001 &1532611673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7642,6 +7668,22 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1588813486530049014, guid: c85cc3218d24da447b5479d832fa98f2,
+        type: 3}
+      propertyPath: iTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1588813486530049014, guid: c85cc3218d24da447b5479d832fa98f2,
+        type: 3}
+      propertyPath: debug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1588813486530048968, guid: c85cc3218d24da447b5479d832fa98f2,
+        type: 3}
+      propertyPath: abilities.Array.data[2].abil
+      value: 
+      objectReference: {fileID: 11400000, guid: 9a9e9a282f338184bae31ad539b91e6a,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c85cc3218d24da447b5479d832fa98f2, type: 3}
 --- !u!43 &1598667188
@@ -9312,7 +9354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958ed8817faa45144875b2fd1a62f304, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitstunDuration: 0.1
+  debug: 1
   defaultMaterial: {fileID: 2100000, guid: 7377cac08f749ea4c9f3562b1d654ce6, type: 2}
   hitMaterial: {fileID: 2100000, guid: 1aefbd00d85e44742b386a6307bded1d, type: 2}
 --- !u!1 &2056576272

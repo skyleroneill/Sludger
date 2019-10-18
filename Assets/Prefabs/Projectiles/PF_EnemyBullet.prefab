@@ -95,7 +95,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   power: 1
-  knockbackForce: 2
+  knockbackForce: 5
+  hitstunDuration: 0.1
   ignoreLayers: 090000000b000000
   lifeTime: 5
   moveForward: 0

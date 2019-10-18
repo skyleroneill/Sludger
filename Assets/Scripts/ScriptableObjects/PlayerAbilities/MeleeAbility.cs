@@ -14,6 +14,13 @@ public class MeleeAbility : PlayerAbility
     [Tooltip("The amount of hit point damage this attack will do.")]
     [SerializeField]
     protected int power = 1;
+    [Tooltip("The amount of knockback this attack will apply. Values of zero or less result in no knockback.")]
+    [SerializeField]
+    protected float knockbackForce = 3f;
+    [Tooltip("The amount of time in seconds that objects hit by this attack will be stunned. Values of zero or less result in no hitstun.")]
+    [SerializeField]
+    protected float hitstunDuration = 0.1f;
+
 
     protected Vector3 attackOrigin;
     protected Transform playerOrigin;
@@ -60,6 +67,19 @@ public class MeleeAbility : PlayerAbility
             Health enemyHP = rch.gameObject.GetComponent<Health>();
             
             enemyHP.TakeDamageInvincibility(power);
+
+            // If the hit game object doesn't have a HitStunAndKnockback component then we're done here
+            if (!rch.gameObject.GetComponent<HitstunAndKnockback>())
+                return;
+
+            // Only apply knockback when the given force is above zero
+            if(knockbackForce > 0f)
+            {
+                rch.gameObject.GetComponent<HitstunAndKnockback>().Knockback(aimDir.GetAimDirection(), knockbackForce);
+            }
+
+            // Apply hitstun
+            rch.gameObject.GetComponent<HitstunAndKnockback>().Hitstun(hitstunDuration);
         }
     }
 }
