@@ -78,6 +78,12 @@ public class Projectile : MonoBehaviour
             damageDealt = hit.GetComponent<Health>().TakeDamageInvincibility(power);
         }
 
+        // If no damage was dealt then the don't do anything
+        if(damageDealt == 0)
+        {
+            return;
+        }
+
         // Only do the following if the attack dealt damage
         if (damageDealt > 0)
         {

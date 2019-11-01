@@ -998,6 +998,11 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
       objectReference: {fileID: 389886860}
+    - target: {fileID: 9205038115004519182, guid: 57c0263af8ac0024ab0215f24238e1a8,
+        type: 3}
+      propertyPath: buttonNumber
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57c0263af8ac0024ab0215f24238e1a8, type: 3}
 --- !u!224 &67712415 stripped
@@ -1604,7 +1609,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-56152
+  m_Name: pb_Mesh-2498
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10113,7 +10118,7 @@ PrefabInstance:
     - target: {fileID: 1588813486530049009, guid: c85cc3218d24da447b5479d832fa98f2,
         type: 3}
       propertyPath: canMove
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c85cc3218d24da447b5479d832fa98f2, type: 3}
@@ -12086,7 +12091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164c6dd86bebde045b27a9487d253807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 0
+  debug: 1
   maxAbilityPoints: 10
   currentAbilityPoints: 10
   APBar: {fileID: 698789969}

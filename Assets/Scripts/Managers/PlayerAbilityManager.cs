@@ -11,6 +11,11 @@ public class PlayerAbilityManager : MonoBehaviour
     [SerializeField]
     private int currentAbilityPoints;
     [SerializeField]
+    [Range(0.0f, 1.0f)]
+    private float abilityButtonContainerInterpolant = 0.5f;
+    [SerializeField]
+    private float abilityContainerSnapDistance = 0.05f;
+    [SerializeField]
     private Slider APBar;
     [SerializeField]
     private Text meterText;
@@ -103,6 +108,35 @@ public class PlayerAbilityManager : MonoBehaviour
                 AddNewAbilityButton();
                 SetUpAbilityButton(possibleAbilities.Count-1, abil);
             }
+    }
+
+    public void ScrollToSelectedAbilityButton(int b)
+    {
+        // Given button index is out of bounds
+        if(b < 0 || b >= abilityButtons.Count)
+        {
+            if (debug) Debug.Log("Attempted to scroll to invalid button: " + b);
+            return;
+        }
+
+        RectTransform containerTransform = buttonContainer.GetComponent<RectTransform>();
+
+        if(debug) Debug.Log("Scrolling to button: " + b);
+
+        // RIGHT
+        if ((200f * (8 - b)) < containerTransform.anchoredPosition.x)
+        {
+            if (debug) Debug.Log("Scrolling right");
+            // Set the anchored position of the button container
+            containerTransform.anchoredPosition = new Vector2((200f * (8 - b)), 0f);
+        }
+        // LEFT
+        else if ((-200 * b) > containerTransform.anchoredPosition.x)
+        {
+            if (debug) Debug.Log("Scrolling left");
+            // Set the anchored position of the button container
+            containerTransform.anchoredPosition = new Vector2(-200f * b, 0f);
+        }
     }
 
     private void RefreshAPBar(){
@@ -214,6 +248,7 @@ public class PlayerAbilityManager : MonoBehaviour
         abilityButtons[b].transform.Find("CostText").gameObject.GetComponent<Text>().text = abil.GetCost() + " AP";
         abilityButtons[b].GetComponent<Button>().interactable = true;
         abilityButtons[b].GetComponent<Button>().onClick.AddListener(() => {SetSelectedAbility(b);});
+        abilityButtons[b].GetComponent<AbilityButton>().onSelectEvent.AddListener(() => { ScrollToSelectedAbilityButton(b); });
     }
 
     private void AddNewAbilityButton(){
@@ -221,12 +256,27 @@ public class PlayerAbilityManager : MonoBehaviour
         GameObject newButton = Instantiate(defaultButton, buttonContainer.transform);
         abilityButtons.Add(newButton);
 
+        // Button component of the new button
+        Button newButt = newButton.GetComponent<Button>();
+
         // Scale the button container to fit the new button
         RectTransform containerTransform = buttonContainer.GetComponent<RectTransform>();
         containerTransform.sizeDelta = new Vector2(containerTransform.sizeDelta.x + 200f, containerTransform.sizeDelta.y);
 
-
+        // Set the position of the new ability button
         RectTransform newButtonTransform = newButton.GetComponent<RectTransform>();
         newButtonTransform.anchoredPosition = new Vector2((abilityButtons.Count-1) * 200f + 20f, 0f);
+
+        // Set the connections for the new button
+        Navigation n = new Navigation();
+        n.mode = Navigation.Mode.Explicit;
+        n.selectOnLeft = abilityButtons[abilityButtons.Count - 2].GetComponent<Button>(); // left is prev. button
+        n.selectOnUp = abilityButtons[0].GetComponent<Button>().navigation.selectOnUp; // up is whatever the 1st button's up is
+        newButt.navigation = n;
+
+        // Set the connections for the previous button
+        n.selectOnLeft = abilityButtons[abilityButtons.Count - 2].GetComponent<Button>().navigation.selectOnLeft;
+        n.selectOnRight = newButt;
+        abilityButtons[abilityButtons.Count - 2].GetComponent<Button>().navigation = n;
     }
 }
