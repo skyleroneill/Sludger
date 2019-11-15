@@ -6,6 +6,8 @@ TagManager:
   tags:
   - DeathText
   - HealthBubble
+  - SpeechBubble
+  - SpeechIndicator
   layers:
   - Default
   - TransparentFX

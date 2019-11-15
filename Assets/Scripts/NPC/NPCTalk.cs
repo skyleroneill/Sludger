@@ -36,11 +36,19 @@ public class NPCTalk : MonoBehaviour
     [SerializeField]
     private Image speechIndicator;
 
+    // Amount of time before inConversation will become false upon ending a conversation
+    // Prevent conversationalists from conversing instantly when a conversation ends
+    private static float endOfConversationBuffer = 0.1f;
+
     private bool inConversation = false;
     private bool isListener = false;
     private bool isPrinting = false;
     private bool justSayIt = false;
     private string currSpeech = ""; // What the NPC is currently saying
+
+    private static NPCTalk currConversationalist = null;
+    private static NPCTalk closestConversationalist = null;
+    private float myDist = 0f;
 
     private string[][] conversationLines;
     private int currConvLine = 0;
@@ -59,12 +67,34 @@ public class NPCTalk : MonoBehaviour
         // If there is no speech bubble, then warn us
         if(!speechBubble){
             if(debug) Debug.Log("Speech bubble not set on: " + gameObject.name);
+            // Find the speech bubble by tag
+            Image[] childImages = gameObject.GetComponentsInChildren<Image>();
+            foreach(Image img in childImages)
+            {
+                if (img.gameObject.CompareTag("SpeechBubble"))
+                {
+                    if (debug) Debug.Log("Using tagged speech bubble: " + gameObject.name);
+                    speechBubble = img;
+                    break;
+                }
+            }
         }
 
         // If there is no speech indicator, then warn us
         if (!speechIndicator)
         {
             if (debug) Debug.Log("Speech indicator not set on " + gameObject.name);
+            // Find the speech indicator by tag
+            Image[] childImages = gameObject.GetComponentsInChildren<Image>();
+            foreach (Image img in childImages)
+            {
+                if (img.gameObject.CompareTag("SpeechIndicator"))
+                {
+                    if (debug) Debug.Log("Using tagged speech indicator: " + gameObject.name);
+                    speechIndicator = img;
+                    break;
+                }
+            }
         }
 
         if(!conversationTarget && GameObject.FindWithTag(conversationTargetTag)){
@@ -89,13 +119,19 @@ public class NPCTalk : MonoBehaviour
             InteractAbility.interact.onInteractPressed += Converse;
         }
 
-        // The speech indicator is not enabled and the player is within range to converse and not in a conversation
-        if(speechIndicator && !speechIndicator.enabled && !inConversation && canConverse && Vector3.Distance(transform.position, conversationTarget.position) < maxConversationDistance)
+        if (canConverse)
+        {
+            // Find the closest conversationalist
+            FindClosestConversationalist();
+        }
+
+        // The speech indicator is not enabled and the player is within range to converse and is the closest and noone is in a conversation
+        if(speechIndicator && !speechIndicator.enabled && !inConversation && canConverse && (currConversationalist == null || !currConversationalist.inConversation) && closestConversationalist == this && Vector3.Distance(transform.position, conversationTarget.position) < maxConversationDistance)
         {
             speechIndicator.enabled = true;
         }
-        // The speech indicator is enabled and the player is either out of range or in a conversation with this NPC
-        else if(speechIndicator && speechIndicator.enabled && (inConversation || !canConverse || Vector3.Distance(transform.position, conversationTarget.position) > maxConversationDistance))
+        // The speech indicator is enabled and the player is either out of range or not the closest conversationalist in a conversation with an NPC
+        else if(speechIndicator && speechIndicator.enabled && (inConversation || !canConverse || (currConversationalist != null && currConversationalist != this && currConversationalist.inConversation) || closestConversationalist != this || Vector3.Distance(transform.position, conversationTarget.position) > maxConversationDistance))
         {
             speechIndicator.enabled = false;
         }
@@ -103,9 +139,10 @@ public class NPCTalk : MonoBehaviour
         // Player is too far, end conversation
         if(inConversation && Vector3.Distance(transform.position, conversationTarget.position) > maxConversationDistance){
             if(debug) Debug.Log(gameObject.name + "'s conversation target moved away. Ending conversation.");
-            inConversation = false;
+            //inConversation = false;
             currConvLine = 0;
             speechText.text = "";
+            StartCoroutine(BufferConversationEnd());
 
         }
 
@@ -113,9 +150,10 @@ public class NPCTalk : MonoBehaviour
         // then end conversation
         if(inConversation && !canConverse){
             if(debug) Debug.Log(gameObject.name + " can't converse anymore. Ending conversation early.");
-            inConversation = false;
+            //inConversation = false;
             currConvLine = 0;
             speechText.text = "";
+            StartCoroutine(BufferConversationEnd());
         }
 
         // Speech bubble should only be visible when NPC has speech text
@@ -136,6 +174,21 @@ public class NPCTalk : MonoBehaviour
             return;
         }
 
+        // Another NPC is conversing, wait your turn!
+        if(currConversationalist != null && currConversationalist != this && currConversationalist.inConversation){
+            if (debug) Debug.Log(currConversationalist.gameObject.name + " is conversing. So " + gameObject.name + " can't converse.");
+            return;
+        }
+
+        // No one is conversing, but these is a closer conversationalist
+        if((currConversationalist == null || !currConversationalist.inConversation) && closestConversationalist != this)
+        {
+            if (debug) Debug.Log(gameObject.name + " is not the closest conversationalist.");
+            return;
+        }
+
+        currConversationalist = this;
+
         // If this function is called while printing, then just display the text
         // For the impatient people
         if(isPrinting){
@@ -155,9 +208,10 @@ public class NPCTalk : MonoBehaviour
         // End conversation
         else if(currConvLine >= conversationLines[currentConversation].Length && !isPrinting){
             if(debug) Debug.Log("Ending Conversation");
-            inConversation = false;
+            //inConversation = false;
             currConvLine = 0;
             speechText.text = "";
+            StartCoroutine(BufferConversationEnd());
             
             // Determine which conversation to use next
             if(chooseRandomConversation){ // Random conversation
@@ -252,5 +306,18 @@ public class NPCTalk : MonoBehaviour
         justSayIt = false;
         isPrinting = false;
         yield return null;
+    }
+
+    IEnumerator BufferConversationEnd()
+    {
+        yield return new WaitForSeconds(endOfConversationBuffer);
+        inConversation = false;
+    }
+
+    private void FindClosestConversationalist()
+    {
+        myDist = Vector3.Distance(transform.position, conversationTarget.position);
+        if (closestConversationalist == null || myDist < closestConversationalist.myDist)
+            closestConversationalist = this;
     }
 }

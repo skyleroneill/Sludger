@@ -39,10 +39,14 @@ public class PlayerAbilityManager : MonoBehaviour
     // Default of -1 means no ability is selected
     private int selectedAbility = -1;
 
+    private Vector2 containerTargetPosition;
     private AbilitySlots abilitySlots;
 
     private void Start()
     {
+        // Start target container position as current target container position
+        containerTargetPosition = buttonContainer.GetComponent<RectTransform>().anchoredPosition;
+
         // Find the player's ability slots
         abilitySlots =  GameObject.FindGameObjectWithTag("Player").GetComponent<AbilitySlots>();
 
@@ -74,6 +78,7 @@ public class PlayerAbilityManager : MonoBehaviour
         ToggleScrollArrows();
         UpdateMeterText();
         MoveAndToggleSelectionImage();
+        InterpolateToSelectedAbility();
     }
 
     // Click on a possible ability button
@@ -121,21 +126,38 @@ public class PlayerAbilityManager : MonoBehaviour
 
         RectTransform containerTransform = buttonContainer.GetComponent<RectTransform>();
 
-        if(debug) Debug.Log("Scrolling to button: " + b);
+        if (debug) Debug.Log("Scrolling to button: " + b);
 
         // RIGHT
         if ((200f * (8 - b)) < containerTransform.anchoredPosition.x)
         {
             if (debug) Debug.Log("Scrolling right");
             // Set the anchored position of the button container
-            containerTransform.anchoredPosition = new Vector2((200f * (8 - b)), 0f);
+            containerTargetPosition = new Vector2((200f * (8 - b)), -25f);
         }
         // LEFT
         else if ((-200 * b) > containerTransform.anchoredPosition.x)
         {
             if (debug) Debug.Log("Scrolling left");
             // Set the anchored position of the button container
-            containerTransform.anchoredPosition = new Vector2(-200f * b, 0f);
+            containerTargetPosition = new Vector2(-200f * b, -25f);
+        }
+    }
+
+    // Smoothly scroll the Ability pane
+    private void InterpolateToSelectedAbility()
+    {
+        RectTransform containerTransform = buttonContainer.GetComponent<RectTransform>();
+
+        // Interpolate only if not within snap distance
+        if (Mathf.Abs(containerTransform.anchoredPosition.x - containerTargetPosition.x) > abilityContainerSnapDistance)
+        {
+            containerTransform.anchoredPosition = Vector2.Lerp(containerTransform.anchoredPosition, containerTargetPosition, abilityButtonContainerInterpolant);
+        }
+        // If we're within the snap distance then just snap to target position
+        else
+        {
+            containerTransform.anchoredPosition = containerTargetPosition;
         }
     }
 
@@ -156,7 +178,7 @@ public class PlayerAbilityManager : MonoBehaviour
         // Left arrow exists
         if(leftArrow){
             // Show arrow
-            if(buttonContainer.GetComponent<RectTransform>().anchoredPosition.x < 0)
+            if(containerTargetPosition.x < 0)
                 leftArrow.enabled = true;
             else //  Hide arrow
                 leftArrow.enabled = false;
@@ -165,7 +187,7 @@ public class PlayerAbilityManager : MonoBehaviour
         // Right arrow exists
         if(rightArrow){ 
             // Show arrow
-            if(buttonContainer.GetComponent<RectTransform>().anchoredPosition.x > (abilityButtons.Count - 9) * -200)
+            if(containerTargetPosition.x > (abilityButtons.Count - 9) * -200)
                 rightArrow.enabled = true;
             else // Hide arrow
                 rightArrow.enabled = false;
