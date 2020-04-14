@@ -25,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Range (0f, 1f)]
     private float deadZone = 0.15f;
+    [Tooltip("Optional. If set then the player will move according to the given input mode template.")]
+    [SerializeField]
+    private PlayerInputMode inputMode;
 
     private float xInput = 0f;
     private float zInput = 0f;
@@ -126,19 +129,27 @@ public class PlayerMovement : MonoBehaviour
             dir = Vector3.zero;
             return;
         }
-        // Get inputs
-        xInput = Input.GetAxis("Horizontal");
-        zInput = Input.GetAxis("Vertical");
-        dir = dir.WithX(xInput).WithZ(zInput);
+
+        // Get input template input
+        if (inputMode)
+        {
+            dir = inputMode.GetMoveDirection();
+        }
+        // Get legacy input
+        else
+        {
+            xInput = Input.GetAxis("Horizontal");
+            zInput = Input.GetAxis("Vertical");
+            dir = dir.WithX(xInput).WithZ(zInput);
+            // Ensure the input goes past the dead zone
+            Vector2 stickInput = new Vector2(xInput, zInput);
+            if (stickInput.magnitude < deadZone)
+                dir = Vector3.zero;
+        }
+
         // Ensure that movement direction never exceeds 1
         if(dir.magnitude > 1f)
             dir = dir.normalized;
-
-
-        // Ensure the input goes past the dead zone
-        Vector2 stickInput = new Vector2(xInput, zInput);
-        if(stickInput.magnitude < deadZone)
-            dir = Vector3.zero;
     }
 
     public void SetMaxSpeed(float new_max){

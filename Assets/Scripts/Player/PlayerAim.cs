@@ -11,6 +11,9 @@ public class PlayerAim : MonoBehaviour
     [SerializeField]
     [Range (0f, 1f)]
     private float deadZone = 0.15f;
+    [Tooltip("Optional. If set then the player will aim according to the given input mode template.")]
+    [SerializeField]
+    private PlayerInputMode inputMode;
 
     private float xInput = 0f;
     private float zInput = 0f;
@@ -23,32 +26,45 @@ public class PlayerAim : MonoBehaviour
         dir = new Vector3(0f, 0f, -1f);
         lastDir = dir;
         pm = gameObject.GetComponent<PlayerMovement>();
+
+        // Bind the input mode to the player
+        if (inputMode)
+            inputMode.BindToPlayer(gameObject);
     }
 
     private void Update() {
-        // Get the x and z input
-        xInput = Input.GetAxis("HorizontalAim");
-        zInput = Input.GetAxis("VerticalAim");
+        // Get input template input
+        if (inputMode)
+        {
+            dir = inputMode.GetAimDirection();
+        }
+        // Get legacy input
+        else
+        {
+            // Get the x and z input
+            xInput = Input.GetAxis("HorizontalAim");
+            zInput = Input.GetAxis("VerticalAim");
 
-        // The stick input as a vector
-        Vector2 stickInput = new Vector2(xInput, zInput);
+            // The stick input as a vector
+            Vector2 stickInput = new Vector2(xInput, zInput);
 
-        if(stickInput.magnitude < deadZone && pm.GetSpeed() > 0f) // Aim in movement direction if not aiming
-            dir = pm.GetMoveDirection();
-        else if(stickInput.magnitude < deadZone) // Ensure the input goes past the dead zone
-            dir = lastDir;
-        else // Aim in inputted direction
-            dir = dir.WithX(xInput).WithZ(zInput).normalized;
+            if (stickInput.magnitude < deadZone && pm.GetSpeed() > 0f) // Aim in movement direction if not aiming
+                dir = pm.GetMoveDirection();
+            else if (stickInput.magnitude < deadZone) // Ensure the input goes past the dead zone, only if not using an input mode
+                dir = lastDir;
+            else // Aim in inputted direction
+                dir = dir.WithX(xInput).WithZ(zInput).normalized;
+        }
 
         // Ensure that dir can never be zero
-        if(dir == Vector3.zero)
+        if (dir == Vector3.zero)
             dir = lastDir;
 
         // Set lastDir to the direction if the direction is valid
-        if(dir != Vector3.zero)
+        if (dir != Vector3.zero)
             lastDir = dir;
-        
-        if(debug){
+
+        if (debug){
             // Draw a line pointing in the aiming direction
             Debug.DrawRay(transform.position.WithAddedY(0.01f), dir, Color.green, 0f, false);
         }
