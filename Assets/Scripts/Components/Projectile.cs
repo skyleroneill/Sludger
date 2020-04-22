@@ -68,17 +68,9 @@ public class Projectile : MonoBehaviour
         HitBehaviour(col.gameObject);
     }
 
-    //private void OnCollisionStay(Collision col){
-    //    HitBehaviour(col.gameObject);
-    //}
-
     private void OnTriggerEnter(Collider col){
         HitBehaviour(col.gameObject);
     }
-
-    //private void OnTriggerStay(Collider col){
-    //    HitBehaviour(col.gameObject);
-    //}
 
     private void HitBehaviour(GameObject hit){
         // Don't collide with the object that shot it
@@ -109,6 +101,8 @@ public class Projectile : MonoBehaviour
         // If no damage was dealt then the don't do anything
         if(damageDealt == 0)
         {
+            // Destroy the projectile on hit
+            if (destroyOnHit) Destroy(gameObject);
             return;
         }
 
