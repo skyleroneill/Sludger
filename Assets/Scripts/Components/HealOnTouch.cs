@@ -17,6 +17,7 @@ public class HealOnTouch : MonoBehaviour
         if(other.gameObject.tag == healTag && other.gameObject.GetComponent<Health>())
         {
             other.gameObject.GetComponent<Health>().Heal(amount);
+            if (destroyAfterHealing) Destroy(gameObject);
         }
     }
 
@@ -26,6 +27,7 @@ public class HealOnTouch : MonoBehaviour
         if (other.gameObject.tag == healTag && other.gameObject.GetComponent<Health>())
         {
             other.gameObject.GetComponent<Health>().Heal(amount);
+            if (destroyAfterHealing) Destroy(gameObject);
         }
     }
 }

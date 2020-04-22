@@ -1942,6 +1942,7 @@ GameObject:
   - component: {fileID: 1537357091}
   - component: {fileID: 3089392989066265379}
   - component: {fileID: 1658200395}
+  - component: {fileID: 1929626125}
   m_Layer: 8
   m_Name: PF_protoplayer
   m_TagString: Player
@@ -1998,7 +1999,7 @@ MonoBehaviour:
   buddhaMode: 1
   maxHitPoints: 25
   currentHitPoints: 0
-  iTime: 0.2
+  iTime: 0.5
 --- !u!114 &1588813486530048968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2011,6 +2012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f0927370d29d24dac3cc9fc4e0115f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canUseAbilities: 1
   abilities:
   - abil: {fileID: 11400000, guid: 9a9e9a282f338184bae31ad539b91e6a, type: 2}
     exclusiveUse: 1
@@ -2020,7 +2022,7 @@ MonoBehaviour:
     exclusiveUse: 1
     onCooldown: 0
     cooldownTime: 0.2
-  - abil: {fileID: 11400000, guid: 5e435d140b43a7e4f9efdfeaa76954d2, type: 2}
+  - abil: {fileID: 11400000, guid: 9a9e9a282f338184bae31ad539b91e6a, type: 2}
     exclusiveUse: 0
     onCooldown: 0
     cooldownTime: 0.35
@@ -2044,6 +2046,7 @@ MonoBehaviour:
     exclusiveUse: 0
     onCooldown: 0
     cooldownTime: 0
+  inputMode: {fileID: 11400000, guid: 471f7c6ab18194f41b5333d291b79114, type: 2}
 --- !u!114 &1588813486530049009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2063,6 +2066,7 @@ MonoBehaviour:
   snapToZeroThreshold: 0.05
   maxSpeed: 3
   deadZone: 0.2
+  inputMode: {fileID: 11400000, guid: 471f7c6ab18194f41b5333d291b79114, type: 2}
 --- !u!114 &1588813486530049012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2075,8 +2079,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86866935503fa04419dae47a407d93ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 0
+  debug: 1
   deadZone: 0.2
+  inputMode: {fileID: 11400000, guid: 471f7c6ab18194f41b5333d291b79114, type: 2}
 --- !u!114 &1588813486530049015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2173,6 +2178,21 @@ MonoBehaviour:
   debug: 0
   healthBubbleTag: HealthBubble
   healthBubble: {fileID: 0}
+--- !u!114 &1929626125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588813486530049008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 958ed8817faa45144875b2fd1a62f304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  defaultMaterial: {fileID: 2100000, guid: 7377cac08f749ea4c9f3562b1d654ce6, type: 2}
+  hitMaterial: {fileID: 2100000, guid: 1aefbd00d85e44742b386a6307bded1d, type: 2}
 --- !u!114 &892856690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2193,6 +2213,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1588813486530049013}
     m_Modifications:
+    - target: {fileID: 7899030639488589002, guid: 2f53ecda539509b4eb99a2ddf22a3c5e,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 70bc6f1d49b926c4ea8f498895723400, type: 2}
     - target: {fileID: 7899030639488589003, guid: 2f53ecda539509b4eb99a2ddf22a3c5e,
         type: 3}
       propertyPath: m_Name
@@ -2273,11 +2298,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7377cac08f749ea4c9f3562b1d654ce6, type: 2}
-    - target: {fileID: 7899030639488589002, guid: 2f53ecda539509b4eb99a2ddf22a3c5e,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 70bc6f1d49b926c4ea8f498895723400, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f53ecda539509b4eb99a2ddf22a3c5e, type: 3}
 --- !u!1 &4418473475610847358 stripped

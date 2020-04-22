@@ -2,6 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct SpawnConditions
+{
+    public bool onImpact;
+    public bool onHurt;
+}
+
+[System.Serializable]
+public struct SpawnedObjects
+{
+    public GameObject spawnObject;
+    [Tooltip("The conditions on which a projectile will spawn. Checking more than one can result in multiple drops.")]
+    public SpawnConditions spawnConditions;
+}
+
 [RequireComponent(typeof(Rigidbody))]
 public class Projectile : MonoBehaviour
 {
@@ -28,6 +43,10 @@ public class Projectile : MonoBehaviour
     [Tooltip("Should this projectile be destroyed when it hits an object.")]
     [SerializeField]
     protected bool destroyOnHit = true;
+    [Tooltip("The game objects this projectile will spawn.")]
+    [SerializeField]
+    private SpawnedObjects[] spawnObjects;
+
 
     protected Vector3 dir;
     protected Rigidbody rb;
@@ -70,6 +89,15 @@ public class Projectile : MonoBehaviour
             if(hit.layer == layer) return;
         }
 
+        // Drop Impact Spawnables
+        if (spawnObjects.Length > 0)
+        {
+            foreach(SpawnedObjects obj in spawnObjects)
+            {
+                if (obj.spawnConditions.onImpact) GameObject.Instantiate(obj.spawnObject, transform.position, transform.rotation, null);
+            }
+        }
+
         int damageDealt = 0;
 
         // Damage the collided object if it has health
@@ -82,6 +110,15 @@ public class Projectile : MonoBehaviour
         if(damageDealt == 0)
         {
             return;
+        }
+
+        // Drop Hurt Spawnables
+        if (spawnObjects.Length > 0)
+        {
+            foreach (SpawnedObjects obj in spawnObjects)
+            {
+                if (obj.spawnConditions.onHurt) GameObject.Instantiate(obj.spawnObject, transform.position, transform.rotation, null);
+            }
         }
 
         // Only do the following if the attack dealt damage

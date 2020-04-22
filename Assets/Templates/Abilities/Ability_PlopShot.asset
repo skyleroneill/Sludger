@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5427dcdc2c4be304ba36a6d86c0ac0ea, type: 3}
+  m_Name: Ability_PlopShot
+  m_EditorClassIdentifier: 
+  debug: 0
+  abilityName: Plop Shot
+  cost: 1
+  cooldown: 0.3
+  exclusiveUse: 1
+  animationParameter: 
+  bullet: {fileID: 5295246475650495907, guid: 07fde48e6baf72c4e97df40610e88d16, type: 3}
+  power: 3
+  speed: 15
+  firePointName: FirePoint

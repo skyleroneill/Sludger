@@ -33,7 +33,6 @@ public class PlayerInputMode : ScriptableObject
 
     private GameObject playerObj;
     private Transform playerTrans;
-    private bool boundToPlayer = false;
 
     private void OnValidate()
     {
@@ -46,12 +45,8 @@ public class PlayerInputMode : ScriptableObject
 
     public void BindToPlayer(GameObject player)
     {
-        if (boundToPlayer)
-            return;
-
         playerObj = player;
         playerTrans = playerObj.transform;
-        boundToPlayer = true;
     }
 
     #region Move Key Down Functions
@@ -157,7 +152,7 @@ public class PlayerInputMode : ScriptableObject
 
     private Vector3 GetMouseAimDirection()
     {
-        if (!boundToPlayer)
+        if (!playerTrans)
         {
             if (debug) Debug.Log(this.name + ": Not bound to instance of an abject.");
             return Vector3.zero;
